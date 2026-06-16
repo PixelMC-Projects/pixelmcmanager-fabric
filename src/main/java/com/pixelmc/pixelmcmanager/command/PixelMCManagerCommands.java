@@ -56,7 +56,9 @@ public final class PixelMCManagerCommands {
                         .executes(context -> listLoginCounts(context.getSource()))
                         .then(Commands.argument("player", StringArgumentType.word())
                                 .suggests((context, builder) -> {
-                                    statsStore.ensureLoaded(context.getSource().getServer());
+                                    if (!statsStore.ensureLoaded(context.getSource().getServer())) {
+                                        return builder.buildFuture();
+                                    }
                                     return SharedSuggestionProvider.suggest(statsStore.listKnownPlayerNames(), builder);
                                 })
                                 .executes(context -> showLoginCount(context.getSource(), StringArgumentType.getString(context, "player")))))
@@ -64,7 +66,9 @@ public final class PixelMCManagerCommands {
                         .executes(context -> listLoginTimes(context.getSource()))
                         .then(Commands.argument("player", StringArgumentType.word())
                                 .suggests((context, builder) -> {
-                                    statsStore.ensureLoaded(context.getSource().getServer());
+                                    if (!statsStore.ensureLoaded(context.getSource().getServer())) {
+                                        return builder.buildFuture();
+                                    }
                                     return SharedSuggestionProvider.suggest(statsStore.listKnownPlayerNames(), builder);
                                 })
                                 .executes(context -> showLoginTime(context.getSource(), StringArgumentType.getString(context, "player")))))
@@ -157,7 +161,9 @@ public final class PixelMCManagerCommands {
     }
 
     private int listLoginCounts(CommandSourceStack source) {
-        checkpointForQuery(source);
+        if (!checkpointForQuery(source)) {
+            return 0;
+        }
         List<PlayerStatsEntry> entries = statsStore.listAll().stream()
                 .sorted(Comparator
                         .comparingInt((PlayerStatsEntry entry) -> entry.stats().joinCount).reversed()
@@ -179,7 +185,9 @@ public final class PixelMCManagerCommands {
     }
 
     private int showLoginCount(CommandSourceStack source, String playerName) {
-        checkpointForQuery(source);
+        if (!checkpointForQuery(source)) {
+            return 0;
+        }
         Optional<PlayerStatsEntry> entry = statsStore.findByName(playerName);
         if (entry.isEmpty()) {
             send(source, "&c没有找到玩家 " + playerName + " 的记录。");
@@ -197,7 +205,9 @@ public final class PixelMCManagerCommands {
     }
 
     private int listLoginTimes(CommandSourceStack source) {
-        checkpointForQuery(source);
+        if (!checkpointForQuery(source)) {
+            return 0;
+        }
         List<PlayerStatsEntry> entries = statsStore.listAll().stream()
                 .sorted(Comparator
                         .comparingLong((PlayerStatsEntry entry) -> entry.stats().totalOnlineMillis).reversed()
@@ -220,7 +230,9 @@ public final class PixelMCManagerCommands {
     }
 
     private int showLoginTime(CommandSourceStack source, String playerName) {
-        checkpointForQuery(source);
+        if (!checkpointForQuery(source)) {
+            return 0;
+        }
         Optional<PlayerStatsEntry> entry = statsStore.findByName(playerName);
         if (entry.isEmpty()) {
             send(source, "&c没有找到玩家 " + playerName + " 的记录。");
@@ -238,9 +250,13 @@ public final class PixelMCManagerCommands {
         return Command.SINGLE_SUCCESS;
     }
 
-    private void checkpointForQuery(CommandSourceStack source) {
-        statsStore.ensureLoaded(source.getServer());
+    private boolean checkpointForQuery(CommandSourceStack source) {
+        if (!statsStore.ensureLoaded(source.getServer())) {
+            source.sendFailure(Component.literal("PixelMC Manager 玩家统计加载失败，请检查服务器日志。"));
+            return false;
+        }
         statsStore.checkpointOnlinePlayers(source.getServer(), System.currentTimeMillis(), false);
+        return true;
     }
 
     private void send(CommandSourceStack source, String message) {

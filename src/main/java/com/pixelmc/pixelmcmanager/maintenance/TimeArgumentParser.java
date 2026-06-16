@@ -28,12 +28,17 @@ public final class TimeArgumentParser {
             return Result.failure("时间数值过大。");
         }
 
-        Duration duration = switch (matcher.group(2)) {
-            case "s" -> Duration.ofSeconds(value);
-            case "m" -> Duration.ofMinutes(value);
-            case "h" -> Duration.ofHours(value);
-            default -> throw new IllegalStateException("Unexpected unit");
-        };
+        Duration duration;
+        try {
+            duration = switch (matcher.group(2).toLowerCase(Locale.ROOT)) {
+                case "s" -> Duration.ofSeconds(value);
+                case "m" -> Duration.ofMinutes(value);
+                case "h" -> Duration.ofHours(value);
+                default -> throw new IllegalStateException("Unexpected unit");
+            };
+        } catch (ArithmeticException exception) {
+            return Result.failure("停机预定时间最长为 24h。");
+        }
         if (duration.compareTo(MAX_DURATION) > 0) {
             return Result.failure("停机预定时间最长为 24h。");
         }

@@ -65,7 +65,9 @@ public final class PixelMCManager implements ModInitializer {
         }
 
         long nowMillis = System.currentTimeMillis();
-        statsStore.ensureLoaded(player.level().getServer());
+        if (!statsStore.ensureLoaded(player.level().getServer())) {
+            return;
+        }
         PlayerLoginSnapshot snapshot = statsStore.recordLogin(player, nowMillis);
         statsStore.save();
         delayedMessages.schedule(player, snapshot.firstJoin(), snapshot.previousLastJoinEpochMillis());

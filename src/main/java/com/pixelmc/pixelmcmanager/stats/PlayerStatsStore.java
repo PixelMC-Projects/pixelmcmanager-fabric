@@ -51,46 +51,58 @@ public final class PlayerStatsStore {
 
     public synchronized void load(MinecraftServer server) {
         Path worldRoot = server.getWorldPath(LevelResource.ROOT);
-        dataFile = worldRoot.resolve(DATA_DIR).resolve("player_stats.json");
+        Path nextDataFile = worldRoot.resolve(DATA_DIR).resolve("player_stats.json");
         Path legacyDataFile = worldRoot.resolve(LEGACY_DATA_DIR).resolve("player_stats.json");
-        players.clear();
-        lastAccountedMillis.clear();
+        Map<UUID, PlayerStats> loadedPlayers = new LinkedHashMap<>();
 
         try {
-            Files.createDirectories(dataFile.getParent());
+            dataFile = nextDataFile;
+            Files.createDirectories(nextDataFile.getParent());
             migrateLegacyStatsIfNeeded(legacyDataFile);
-            if (Files.notExists(dataFile)) {
+            if (Files.notExists(nextDataFile)) {
+                players.clear();
+                lastAccountedMillis.clear();
                 loaded = true;
                 save();
                 return;
             }
 
-            StatsFile statsFile = GSON.fromJson(Files.readString(dataFile, StandardCharsets.UTF_8), FILE_TYPE);
+            StatsFile statsFile = GSON.fromJson(Files.readString(nextDataFile, StandardCharsets.UTF_8), FILE_TYPE);
             if (statsFile == null) {
                 throw new JsonParseException("Stats file is empty.");
             }
             if (statsFile.players != null) {
                 for (Map.Entry<String, PlayerStats> entry : statsFile.players.entrySet()) {
                     try {
-                        players.put(UUID.fromString(entry.getKey()), entry.getValue() == null ? new PlayerStats() : entry.getValue());
+                        loadedPlayers.put(UUID.fromString(entry.getKey()), entry.getValue() == null ? new PlayerStats() : entry.getValue());
                     } catch (IllegalArgumentException ignored) {
                         logger.warn("Ignoring invalid player UUID in PixelMC Manager stats: {}", entry.getKey());
                     }
                 }
             }
+            players.clear();
+            players.putAll(loadedPlayers);
+            lastAccountedMillis.clear();
             loaded = true;
-        } catch (Exception exception) {
-            logger.error("Failed to load PixelMC Manager player stats from {}.", dataFile, exception);
+        } catch (JsonParseException exception) {
+            dataFile = nextDataFile;
+            logger.error("PixelMC Manager player stats file {} is invalid JSON.", dataFile, exception);
             backupBrokenStatsFile();
             players.clear();
+            lastAccountedMillis.clear();
             loaded = true;
+        } catch (IOException | RuntimeException exception) {
+            dataFile = nextDataFile;
+            loaded = false;
+            logger.error("Failed to load PixelMC Manager player stats from {}. Existing file was left untouched.", dataFile, exception);
         }
     }
 
-    public synchronized void ensureLoaded(MinecraftServer server) {
+    public synchronized boolean ensureLoaded(MinecraftServer server) {
         if (!loaded) {
             load(server);
         }
+        return loaded;
     }
 
     public synchronized PlayerLoginSnapshot recordLogin(ServerPlayer player, long nowMillis) {
@@ -154,7 +166,9 @@ public final class PlayerStatsStore {
     }
 
     public synchronized void checkpointOnlinePlayers(MinecraftServer server, long nowMillis, boolean saveAfterCheckpoint) {
-        ensureLoaded(server);
+        if (!ensureLoaded(server)) {
+            return;
+        }
         for (UUID uuid : lastAccountedMillis.keySet().toArray(UUID[]::new)) {
             if (server.getPlayerList().getPlayer(uuid) != null) {
                 accountOnlineTime(uuid, nowMillis, false);
@@ -193,7 +207,7 @@ public final class PlayerStatsStore {
     }
 
     public synchronized void save() {
-        if (dataFile == null) {
+        if (!loaded || dataFile == null) {
             return;
         }
 
