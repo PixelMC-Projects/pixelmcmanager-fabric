@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "pixelmcmanager",
+  "version": "${version}",
+  "name": "PixelMC Manager",
+  "description": "Server-side Fabric port of PixelMC Manager for Minecraft ${minecraft_version}.",
+  "authors": [
+    "PixelMC"
+  ],
+  "license": "All Rights Reserved",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "com.pixelmc.pixelmcmanager.PixelMCManager"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=25"
+  }
+}
