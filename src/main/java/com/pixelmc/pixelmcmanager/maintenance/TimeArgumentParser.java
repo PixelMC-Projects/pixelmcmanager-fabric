@@ -37,10 +37,10 @@ public final class TimeArgumentParser {
                 default -> throw new IllegalStateException("Unexpected unit");
             };
         } catch (ArithmeticException exception) {
-            return Result.failure("停机预定时间最长为 24h。");
+            return Result.failure("计划时间最大为 24h。");
         }
         if (duration.compareTo(MAX_DURATION) > 0) {
-            return Result.failure("停机预定时间最长为 24h。");
+            return Result.failure("计划时间最大为 24h。");
         }
         return Result.success(duration);
     }
