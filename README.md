@@ -26,6 +26,7 @@ This is the official Fabric port of PixelMC Manager. It does not require client 
 - `/pixelmcmanager logintime <player>`
 - `/pixelmcmanager stopserver <time>`
 - `/pixelmcmanager stopserver cancel`
+- `/pixelmcmanager stopserver status`
 
 Player statistics are stored in:
 
@@ -50,3 +51,5 @@ Future branches should use names like mc-1.21.x or mc-1.22.x.
 ## Maintenance Limitation
 
 This build uses Fabric API server play connection events and no Mixin. During the 15-second maintenance window after players are kicked, new joins are disconnected immediately after Fabric exposes the joined player, with the configured two-line maintenance message.
+
+`/pixelmcmanager stopserver status` displays the current stop plan without changing it. It shows whether the server is waiting for maintenance, already in the 15-second maintenance window, or past the final stop time, plus the remaining real wall-clock time, maintenance start time, and final stop time.
