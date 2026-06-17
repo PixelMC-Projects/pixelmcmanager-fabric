@@ -12,6 +12,7 @@ Hard rules:
 - Store player stats under the current world save root, not global config.
 - Track playtime using real wall-clock milliseconds, not ticks.
 - Keep stopserver and maintenance states independent; stopserver join rejection has priority.
+- Store audit history in the active world save root under pixelmcmanager/audit.jsonl.
 - Use Gradle/Maven Aliyun mirrors where applicable, while preserving Fabric official Maven.
 - Always run a clean Gradle build before claiming success.
 - Push to git@github.com:zcpu954861/pixelmcmanager-fabric.git only after build succeeds.

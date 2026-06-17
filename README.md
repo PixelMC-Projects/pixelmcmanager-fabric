@@ -31,6 +31,9 @@ This is the official Fabric port of PixelMC Manager. It does not require client 
 - `/pixelmcmanager maintenance now`
 - `/pixelmcmanager maintenance off`
 - `/pixelmcmanager maintenance status`
+- `/pixelmcmanager audit`
+- `/pixelmcmanager audit last`
+- `/pixelmcmanager audit last <count>`
 
 Player statistics are stored in:
 
@@ -61,3 +64,5 @@ This build uses Fabric API server play connection events and no Mixin. During th
 `/pixelmcmanager maintenance <time>` schedules maintenance mode without stopping the server. At the scheduled time all online players are kicked, new joins are rejected with a custom two-line maintenance message, and the server keeps running until `/pixelmcmanager maintenance off`.
 
 `/pixelmcmanager maintenance now` enters maintenance immediately. `/pixelmcmanager maintenance off` cancels a pending maintenance plan or disables active maintenance. `/pixelmcmanager maintenance status` shows the current maintenance plan or active maintenance state. Maintenance plans and active maintenance state are in memory only and are not persisted across server restarts.
+
+`/pixelmcmanager audit` and `/pixelmcmanager audit last [count]` show recent successful management operations in-game. PixelMC Manager records successful `reload`, `stopserver`, `stopserver cancel`, `maintenance <time>`, `maintenance now`, and `maintenance off` operations. Query and preview commands are not recorded. Audit records are stored in the current world save root at `<world-save-root>/pixelmcmanager/audit.jsonl` and a recent in-memory cache is loaded on server start for fast queries.

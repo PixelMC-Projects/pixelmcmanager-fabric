@@ -1,6 +1,7 @@
 package com.pixelmc.pixelmcmanager;
 
 import com.mojang.logging.LogUtils;
+import com.pixelmc.pixelmcmanager.audit.AuditService;
 import com.pixelmc.pixelmcmanager.command.PixelMCManagerCommands;
 import com.pixelmc.pixelmcmanager.config.WelcomeConfigManager;
 import com.pixelmc.pixelmcmanager.event.DelayedMessageScheduler;
@@ -24,6 +25,7 @@ public final class PixelMCManager implements ModInitializer {
 
     private WelcomeConfigManager configManager;
     private PlayerStatsStore statsStore;
+    private AuditService auditService;
     private DelayedMessageScheduler delayedMessages;
     private StopServerScheduler stopServerScheduler;
     private MaintenanceScheduler maintenanceScheduler;
@@ -33,18 +35,20 @@ public final class PixelMCManager implements ModInitializer {
     public void onInitialize() {
         configManager = new WelcomeConfigManager(LOGGER);
         statsStore = new PlayerStatsStore(LOGGER);
+        auditService = new AuditService(LOGGER);
         PlaceholderResolver placeholderResolver = new PlaceholderResolver();
         TextTemplateParser textParser = new TextTemplateParser(LOGGER);
         delayedMessages = new DelayedMessageScheduler(configManager, statsStore, placeholderResolver, textParser);
         stopServerScheduler = new StopServerScheduler(configManager, textParser);
         maintenanceScheduler = new MaintenanceScheduler(configManager, textParser);
-        PixelMCManagerCommands commands = new PixelMCManagerCommands(configManager, statsStore, placeholderResolver, textParser, stopServerScheduler, maintenanceScheduler);
+        PixelMCManagerCommands commands = new PixelMCManagerCommands(configManager, statsStore, auditService, placeholderResolver, textParser, stopServerScheduler, maintenanceScheduler);
 
         configManager.loadOrCreate();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> commands.register(dispatcher));
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             configManager.loadOrCreate();
             statsStore.load(server);
+            auditService.load(server);
             lastStatsCheckpointMillis = System.currentTimeMillis();
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
