@@ -5,6 +5,9 @@ import com.pixelmc.pixelmcmanager.util.TimeFormatUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,5 +36,40 @@ public final class PlaceholderResolver {
             resolved = resolved.replace(entry.getKey(), entry.getValue());
         }
         return resolved;
+    }
+
+    public String resolveGlobal(String template, com.pixelmc.pixelmcmanager.config.WelcomeConfig config, MinecraftServer server) {
+        if (template == null || template.isEmpty()) {
+            return "";
+        }
+
+        ZoneId zoneId = parseZone(config.timezone);
+        Map<String, String> values = new LinkedHashMap<>();
+        values.put("{online}", Integer.toString(server.getPlayerList().getPlayerCount()));
+        values.put("{max}", Integer.toString(server.getMaxPlayers()));
+        values.put("{date}", formatNow(config.dateFormat, zoneId));
+        values.put("{time}", formatNow(config.timeFormat, zoneId));
+
+        String resolved = template;
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            resolved = resolved.replace(entry.getKey(), entry.getValue());
+        }
+        return resolved;
+    }
+
+    private static ZoneId parseZone(String zone) {
+        try {
+            return ZoneId.of(zone);
+        } catch (RuntimeException ignored) {
+            return ZoneId.of("Asia/Shanghai");
+        }
+    }
+
+    private static String formatNow(String pattern, ZoneId zoneId) {
+        try {
+            return DateTimeFormatter.ofPattern(pattern).withZone(zoneId).format(Instant.now());
+        } catch (RuntimeException ignored) {
+            return DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId).format(Instant.now());
+        }
     }
 }

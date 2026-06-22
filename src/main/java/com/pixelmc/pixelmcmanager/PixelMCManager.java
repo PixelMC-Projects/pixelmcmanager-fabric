@@ -4,10 +4,12 @@ import com.mojang.logging.LogUtils;
 import com.pixelmc.pixelmcmanager.audit.AuditService;
 import com.pixelmc.pixelmcmanager.command.PixelMCManagerCommands;
 import com.pixelmc.pixelmcmanager.config.WelcomeConfigManager;
+import com.pixelmc.pixelmcmanager.event.AnnouncementScheduler;
 import com.pixelmc.pixelmcmanager.event.DelayedMessageScheduler;
 import com.pixelmc.pixelmcmanager.maintenance.MaintenanceScheduler;
 import com.pixelmc.pixelmcmanager.maintenance.StopServerScheduler;
 import com.pixelmc.pixelmcmanager.placeholder.PlaceholderResolver;
+import com.pixelmc.pixelmcmanager.runtime.ServerRuntimeStats;
 import com.pixelmc.pixelmcmanager.stats.PlayerLoginSnapshot;
 import com.pixelmc.pixelmcmanager.stats.PlayerStatsStore;
 import com.pixelmc.pixelmcmanager.text.TextTemplateParser;
@@ -27,8 +29,10 @@ public final class PixelMCManager implements ModInitializer {
     private PlayerStatsStore statsStore;
     private AuditService auditService;
     private DelayedMessageScheduler delayedMessages;
+    private AnnouncementScheduler announcements;
     private StopServerScheduler stopServerScheduler;
     private MaintenanceScheduler maintenanceScheduler;
+    private ServerRuntimeStats runtimeStats;
     private long lastStatsCheckpointMillis = 0L;
 
     @Override
@@ -39,9 +43,11 @@ public final class PixelMCManager implements ModInitializer {
         PlaceholderResolver placeholderResolver = new PlaceholderResolver();
         TextTemplateParser textParser = new TextTemplateParser(LOGGER);
         delayedMessages = new DelayedMessageScheduler(configManager, statsStore, placeholderResolver, textParser);
+        announcements = new AnnouncementScheduler(configManager, placeholderResolver, textParser);
         stopServerScheduler = new StopServerScheduler(configManager, textParser);
         maintenanceScheduler = new MaintenanceScheduler(configManager, textParser);
-        PixelMCManagerCommands commands = new PixelMCManagerCommands(configManager, statsStore, auditService, placeholderResolver, textParser, stopServerScheduler, maintenanceScheduler);
+        runtimeStats = new ServerRuntimeStats();
+        PixelMCManagerCommands commands = new PixelMCManagerCommands(configManager, statsStore, auditService, placeholderResolver, textParser, stopServerScheduler, maintenanceScheduler, runtimeStats);
 
         configManager.loadOrCreate();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> commands.register(dispatcher));
@@ -50,6 +56,7 @@ public final class PixelMCManager implements ModInitializer {
             statsStore.load(server);
             auditService.load(server);
             lastStatsCheckpointMillis = System.currentTimeMillis();
+            runtimeStats.markServerStarted(lastStatsCheckpointMillis);
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             statsStore.settleAll(System.currentTimeMillis());
@@ -61,6 +68,7 @@ public final class PixelMCManager implements ModInitializer {
             stopServerScheduler.tick(server);
             maintenanceScheduler.tick(server);
             delayedMessages.tick(server);
+            announcements.tick(server);
             checkpointStatsIfDue(server);
         });
 

@@ -52,3 +52,21 @@
 50. Confirm audit records are stored at `<world-save-root>/pixelmcmanager/audit.jsonl`.
 51. Restart the server and confirm recent audit records can still be queried.
 52. Confirm a client without PixelMC Manager can still join normally when maintenance is inactive.
+
+## v0.3.0 Checks
+
+53. Edit `permissions.reloadLevel`, run `/pixelmcmanager reload`, and confirm the new level is used without restarting.
+54. Remove one permission field, reload, and confirm the default value is used.
+55. Set one permission field to a string and one to `9`, reload, and confirm both fall back to defaults and log warnings.
+56. Confirm dangerous commands `audit`, `stopserver`, `maintenance`, and `save` default to OP level 4.
+57. Run `/pixelmcmanager save` and confirm the success message says `已保存 PixelMC Manager 数据并请求服务器保存世界。`.
+58. After `/pixelmcmanager save`, confirm `player_stats.json` is updated and audit shows a `save` record.
+59. Run `/pixelmcmanager stats` and confirm it shows recorded players, current online/max, today active players, total playtime, uptime, and maintenance state.
+60. Confirm `/pixelmcmanager stats` updates online session playtime in memory but does not create an audit record.
+61. Confirm automatic announcements are silent with `announcements.enabled=false`.
+62. Enable announcements with a short delay and interval in a disposable test server, then confirm messages rotate in order.
+63. Set `announcements.messages` to an empty list and confirm no crash and no chat spam.
+64. Change announcement text, run `/pixelmcmanager reload`, and confirm the new text is used after the configured delay.
+65. Confirm announcement placeholders `{online}`, `{max}`, `{date}`, and `{time}` resolve when the message is sent.
+66. Run `.\gradlew.bat clean build` before packaging the Fabric jar and sources jar.
+67. After publishing a release, download the assets listed under `兼容版本与附件` and confirm the filenames are `pixelmcmanager-fabric-26.1.2-0.3.0.jar` and `pixelmcmanager-fabric-26.1.2-0.3.0-sources.jar`.

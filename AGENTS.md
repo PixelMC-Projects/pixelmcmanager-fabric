@@ -13,6 +13,10 @@ Hard rules:
 - Track playtime using real wall-clock milliseconds, not ticks.
 - Keep stopserver and maintenance states independent; stopserver join rejection has priority.
 - Store audit history in the active world save root under pixelmcmanager/audit.jsonl.
+- Keep command permission levels configurable as OP levels 0-4, with dangerous commands defaulting to OP 4.
+- Keep /pixelmcmanager save responsible for stats checkpoint, stats save, audit flush confirmation, config save, and server world save request.
+- Keep /pixelmcmanager stats read-only for audit and based on in-memory stats with a light online-player checkpoint before reading.
+- Keep automatic announcements disabled by default, chat-only, sequential, reload-aware, and low overhead; do not format messages every tick.
 - Use Gradle/Maven Aliyun mirrors where applicable, while preserving Fabric official Maven.
 - Always run a clean Gradle build before claiming success.
 - Push to git@github.com:zcpu954861/pixelmcmanager-fabric.git only after build succeeds.
