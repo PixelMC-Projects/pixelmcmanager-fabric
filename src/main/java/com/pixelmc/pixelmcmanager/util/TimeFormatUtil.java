@@ -3,30 +3,36 @@ package com.pixelmc.pixelmcmanager.util;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public final class TimeFormatUtil {
     private TimeFormatUtil() {
     }
 
     public static String formatFriendly(long millis) {
-        long seconds = Math.max(0L, millis / 1_000L);
-        long days = seconds / 86_400L;
-        seconds %= 86_400L;
-        long hours = seconds / 3_600L;
-        seconds %= 3_600L;
-        long minutes = seconds / 60L;
-        seconds %= 60L;
+        long totalSeconds = Math.max(0L, millis) / 1_000L;
+        if (totalSeconds < 60L) {
+            return totalSeconds + "秒";
+        }
+
+        long totalMinutes = totalSeconds / 60L;
+        long days = totalMinutes / (24L * 60L);
+        long hours = (totalMinutes % (24L * 60L)) / 60L;
+        long minutes = totalMinutes % 60L;
+
+        StringBuilder result = new StringBuilder();
         if (days > 0L) {
-            return String.format(Locale.ROOT, "%d天%d小时%d分钟", days, hours, minutes);
+            result.append(days).append("天");
+            if (hours > 0L) {
+                result.append(hours).append("小时");
+            }
+            return result.toString();
         }
         if (hours > 0L) {
-            return String.format(Locale.ROOT, "%d小时%d分钟", hours, minutes);
+            result.append(hours).append("小时");
+            result.append(String.format("%02d", minutes)).append("分钟");
+            return result.toString();
         }
-        if (minutes > 0L) {
-            return String.format(Locale.ROOT, "%d分钟%d秒", minutes, seconds);
-        }
-        return seconds + "秒";
+        return minutes + "分钟";
     }
 
     public static String formatDateTime(long epochMillis, String timezone, String dateFormat, String timeFormat) {
@@ -34,11 +40,13 @@ public final class TimeFormatUtil {
             return "未知";
         }
         try {
-            ZoneId zone = ZoneId.of(timezone);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat + " " + timeFormat).withZone(zone);
+            ZoneId zoneId = ZoneId.of(timezone);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat + " " + timeFormat).withZone(zoneId);
             return formatter.format(Instant.ofEpochMilli(epochMillis));
-        } catch (Exception ignored) {
-            return DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(epochMillis));
+        } catch (RuntimeException ignored) {
+            return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    .withZone(ZoneId.of("Asia/Shanghai"))
+                    .format(Instant.ofEpochMilli(epochMillis));
         }
     }
 }

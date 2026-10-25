@@ -1,11 +1,54 @@
-# 构建 / Building
+# 构建与接入 / Building and setup
 
-使用 JDK 25 并设置 `JAVA_HOME`，在当前 Minecraft 版本分支中运行：
-Use JDK 25 (`JAVA_HOME`) and build from the matching Minecraft version branch:
+使用 JDK 25 并设置 `JAVA_HOME`，在对应 Minecraft 版本分支中运行：
+Use JDK 25 (`JAVA_HOME`) on the matching Minecraft-version branch:
 
 ```sh
 ./gradlew clean build
 ```
 
-Windows 使用 `gradlew.bat clean build`。依赖使用大陆镜像与 Fabric 官方 Maven；产物位于 `build/libs/`。
-On Windows use `gradlew.bat clean build`. Dependencies use mainland China mirrors and official Fabric Maven. Outputs are in `build/libs/`.
+Windows 使用 `gradlew.bat clean build`；产物位于 `build/libs/`。依赖优先使用大陆镜像，保留 Fabric 官方 Maven。不需要本机专用缓存或客户端模组。
+On Windows use `gradlew.bat clean build`. Outputs are in `build/libs/`. Mainland mirrors and official Fabric Maven are configured; no workstation-specific cache or client mod is required.
+
+## 常驻网页 / Independent web service
+
+网页服务、MariaDB 数据库和 UI 与 Forge 共用，避免维护两份后端。使用 [共享服务的构建说明](https://github.com/PixelMC-Projects/pixelmcmanager-forge/blob/mc-1.20.1/BUILDING.md) 单独构建/运行 Manager Service。Java 17 的后端可接收本 Fabric 模组（Java 25）的同一桥接协议。
+The dashboard, MariaDB backend and UI are shared with Forge. Build/run Manager Service using [its instructions](https://github.com/PixelMC-Projects/pixelmcmanager-forge/blob/mc-1.20.1/BUILDING.md). The Java 17 service accepts this Java 25 Fabric mod through the same bridge protocol.
+
+模组首次启动生成 `config/pixelmcmanager-bridge.json`，默认关闭。填入后台分配的实例 ID 和独立桥接令牌后开启；地址使用游戏容器能访问的后台地址。不要把真实令牌提交至 Git。
+The first start creates `config/pixelmcmanager-bridge.json`, disabled by default. Set the service-assigned instance ID, a dedicated bridge token, and a backend URL reachable from the game container before enabling it. Never commit real credentials.
+
+```json
+{
+  "enabled": false,
+  "baseUrl": "http://127.0.0.1:18800",
+  "instanceId": "minecraft",
+  "token": "",
+  "publicUrl": ""
+}
+```
+
+玩家统计/登录补传保存在当前存档的 `pixelmcmanager/`；网页持久资料在后台数据库。性能数据按当前运行批次和原有 12/24 小时保留规则处理，重连不会冒充新一轮开服。
+Local player checkpoints and pending login uploads stay in the active world's `pixelmcmanager/` directory. Durable web records use the backend database. Performance follows the existing current-run 12/24-hour retention policy; reconnecting is not a new server run.
+
+扩展使用 `com.pixelmc.pixelmcmanager.api.ManagerBridgeApi` 注册，不绑定 Forge API。游戏内扩展本身仍需对应加载器版本；不能直接把 Forge 扩展 JAR 放进 Fabric。
+Extensions register through the loader-independent `ManagerBridgeApi`. An in-game extension still needs a Fabric-compatible build; a Forge extension JAR does not become loadable on Fabric merely by sharing the backend.
+
+## 重启交接 / Restart supervision
+
+`/pixelmcmanager restart whenempty` 预约空服 15 秒后重启；`cancel` / `status` 取消或查询。`restart onmodchange on|off|status` 控制轻量模组变更检测，配置为 `restart.restartOnModChange`，默认关闭。监听 mods 顶层 JAR 文件事件，定期只核对文件元数据，不持续读 JAR 或递归扫盘。
+Use `/pixelmcmanager restart whenempty`, `cancel`, or `status`. `restart onmodchange on|off|status` controls lightweight mod-change restarts (`restart.restartOnModChange`, off by default). Top-level JAR events and periodic metadata checks avoid continuous content reads or recursive scanning.
+
+必须先运行 `tools/restart_host.py`。未发现可用托管程序时，模组拒绝提交重启，避免只停服却无法拉起。首次启动及重启使用托管程序收到的同一原始命令。
+Run `tools/restart_host.py` first. Without a ready supervisor the mod refuses restart requests rather than stopping a server it cannot relaunch. First start and subsequent restarts use the same original command.
+
+独立模式使用 `standalone --game-dir SERVER_DIRECTORY -- ORIGINAL_STARTUP_COMMAND`；MCSM 模式使用 `mcsm --game-dir SERVER_DIRECTORY --instance INSTANCE_UUID --daemon-config DAEMON_CONFIG --state-file STATE_FILE`。
+Use `standalone --game-dir SERVER_DIRECTORY -- ORIGINAL_STARTUP_COMMAND` for independent startup, or `mcsm --game-dir SERVER_DIRECTORY --instance INSTANCE_UUID --daemon-config DAEMON_CONFIG --state-file STATE_FILE` for MCSM. Replace the uppercase placeholders with the actual paths and original command.
+
+MCSM 桥在宿主机运行，只授权所选实例；游戏容器与桥需共享该实例的 `pixelmcmanager/restart` 目录。Daemon 凭据只留在宿主机，不发给游戏客户端。MCSM 模式由 MCSM 使用该实例原启动设置完成重启。
+Run the MCSM bridge on the host for the selected instance only. Share that instance's `pixelmcmanager/restart` directory with the game container. Keep daemon credentials on the host. MCSM performs restarts using the instance's original startup settings.
+
+## 更新兼容 / Upgrade compatibility
+
+0.3.0 的配置与存档内统计会保留；旧 Fabric 占位符 `{first_join}` / `{last_join}` 继续有效，同时支持 Forge 的完整占位符集合。新配置项使用与 Forge 相同默认值。不要用旧包覆盖当前数据目录。
+Existing 0.3.0 configuration and world-local statistics are retained. Legacy Fabric `{first_join}` / `{last_join}` placeholders remain supported alongside the full Forge placeholder set. New options use the same defaults as Forge. Do not replace live data directories with an old package.
