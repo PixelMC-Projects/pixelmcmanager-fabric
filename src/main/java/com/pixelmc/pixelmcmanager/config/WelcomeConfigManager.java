@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonParseException;
 import com.pixelmc.pixelmcmanager.PixelMCManager;
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -28,9 +27,8 @@ public final class WelcomeConfigManager {
 
     public WelcomeConfigManager(Logger logger) {
         this.logger = logger;
-        Path configDir = FabricLoader.getInstance().getConfigDir();
-        this.configPath = configDir.resolve(PixelMCManager.MOD_ID + ".json");
-        this.legacyConfigPath = configDir.resolve(LEGACY_MOD_ID + ".json");
+        this.configPath = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir().resolve(PixelMCManager.MOD_ID + ".json");
+        this.legacyConfigPath = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir().resolve(LEGACY_MOD_ID + ".json");
     }
 
     public WelcomeConfig getConfig() {
@@ -52,7 +50,8 @@ public final class WelcomeConfigManager {
                 return LoadResult.success("Created default config.");
             }
 
-            JsonObject root = JsonParser.parseString(Files.readString(configPath, StandardCharsets.UTF_8)).getAsJsonObject();
+            String json = Files.readString(configPath, StandardCharsets.UTF_8);
+            JsonObject root = JsonParser.parseString(json).getAsJsonObject();
             sanitizeConfigJson(root);
             WelcomeConfig loaded = GSON.fromJson(root, WelcomeConfig.class);
             if (loaded == null) {
@@ -78,6 +77,16 @@ public final class WelcomeConfigManager {
         Files.writeString(configPath, GSON.toJson(config), StandardCharsets.UTF_8);
     }
 
+    public String snapshotJson() { return GSON.toJson(config); }
+
+    public void saveSnapshot(String json) throws IOException {
+        Files.createDirectories(configPath.getParent());
+        Path temp=configPath.resolveSibling(configPath.getFileName()+".bridge-tmp");
+        Files.writeString(temp,json,StandardCharsets.UTF_8);
+        try { Files.move(temp,configPath,StandardCopyOption.ATOMIC_MOVE,StandardCopyOption.REPLACE_EXISTING); }
+        catch (java.nio.file.AtomicMoveNotSupportedException e) { Files.move(temp,configPath,StandardCopyOption.REPLACE_EXISTING); }
+    }
+
     private void sanitizeConfigJson(JsonObject root) {
         sanitizeSection(root, "permissions");
         sanitizeInteger(root, "permissions", "reloadLevel", 3);
@@ -89,6 +98,9 @@ public final class WelcomeConfigManager {
         sanitizeInteger(root, "permissions", "saveLevel", 4);
         sanitizeInteger(root, "permissions", "serverStatsLevel", 2);
         sanitizeInteger(root, "permissions", "announcementLevel", 4);
+        sanitizeInteger(root, "permissions", "restartLevel", 4);
+        sanitizeSection(root, "restart");
+        sanitizeInteger(root, "restart", "metadataRecheckSeconds", 60);
         sanitizeSection(root, "announcements");
         sanitizeInteger(root, "announcements", "intervalMinutes", 30);
         sanitizeInteger(root, "announcements", "initialDelayMinutes", 5);

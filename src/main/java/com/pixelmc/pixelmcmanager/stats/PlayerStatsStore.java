@@ -50,6 +50,7 @@ public final class PlayerStatsStore {
     }
 
     public synchronized void load(MinecraftServer server) {
+        // LevelResource.ROOT resolves inside the active save root, the directory that owns level.dat.
         Path worldRoot = server.getWorldPath(LevelResource.ROOT);
         Path nextDataFile = worldRoot.resolve(DATA_DIR).resolve("player_stats.json");
         Path legacyDataFile = worldRoot.resolve(LEGACY_DATA_DIR).resolve("player_stats.json");
@@ -67,14 +68,17 @@ public final class PlayerStatsStore {
                 return;
             }
 
-            StatsFile statsFile = GSON.fromJson(Files.readString(nextDataFile, StandardCharsets.UTF_8), FILE_TYPE);
+            String json = Files.readString(nextDataFile, StandardCharsets.UTF_8);
+            StatsFile statsFile = GSON.fromJson(json, FILE_TYPE);
             if (statsFile == null) {
                 throw new JsonParseException("Stats file is empty.");
             }
             if (statsFile.players != null) {
                 for (Map.Entry<String, PlayerStats> entry : statsFile.players.entrySet()) {
                     try {
-                        loadedPlayers.put(UUID.fromString(entry.getKey()), entry.getValue() == null ? new PlayerStats() : entry.getValue());
+                        UUID uuid = UUID.fromString(entry.getKey());
+                        PlayerStats stats = entry.getValue() == null ? new PlayerStats() : entry.getValue();
+                        loadedPlayers.put(uuid, stats);
                     } catch (IllegalArgumentException ignored) {
                         logger.warn("Ignoring invalid player UUID in PixelMC Manager stats: {}", entry.getKey());
                     }
@@ -165,6 +169,11 @@ public final class PlayerStatsStore {
         return !lastAccountedMillis.isEmpty();
     }
 
+    public synchronized long uncheckpointedMillis(UUID id, long now) {
+        Long at = lastAccountedMillis.get(id);
+        return at == null ? 0 : Math.max(0, now - at);
+    }
+
     public synchronized void checkpointOnlinePlayers(MinecraftServer server, long nowMillis, boolean saveAfterCheckpoint) {
         if (!ensureLoaded(server)) {
             return;
@@ -223,6 +232,7 @@ public final class PlayerStatsStore {
             byte[] bytes = GSON.toJson(statsFile).getBytes(StandardCharsets.UTF_8);
             try (FileChannel channel = FileChannel.open(tempFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)) {
                 channel.write(ByteBuffer.wrap(bytes));
+                // Force temp file contents to disk before replace. Directory fsync is platform dependent on Windows, so atomic replace is still the main protection.
                 channel.force(true);
             }
             try {

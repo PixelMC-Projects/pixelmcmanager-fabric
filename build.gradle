@@ -72,3 +72,22 @@ tasks.withType(Jar).configureEach {
     from(rootProject.file('NOTICE')) { into 'META-INF/pixelmc' }
     from(rootProject.file('LICENSE-EXCEPTION.md')) { into 'META-INF/pixelmc' }
 }
+
+// Behavioral checks run as ordinary Java programs; no game instance is started.
+sourceSets {
+    restartChecks {
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+['restartLogicTest': 'com.pixelmc.pixelmcmanager.restart.RestartLogicTest',
+ 'bridgeLogicTest': 'com.pixelmc.pixelmcmanager.bridge.BridgeLogicTest',
+ 'lifecycleShutdownTest': 'com.pixelmc.pixelmcmanager.compat.LifecycleShutdownTest',
+ 'textParityTest': 'com.pixelmc.pixelmcmanager.text.TextParityTest'].each { taskName, entry ->
+    tasks.register(taskName, JavaExec) {
+        dependsOn restartChecksClasses
+        classpath = sourceSets.restartChecks.runtimeClasspath
+        mainClass = entry
+    }
+    tasks.named('check').configure { dependsOn taskName }
+}

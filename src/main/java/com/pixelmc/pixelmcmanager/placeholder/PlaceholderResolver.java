@@ -3,58 +3,91 @@ package com.pixelmc.pixelmcmanager.placeholder;
 import com.pixelmc.pixelmcmanager.stats.PlayerStats;
 import com.pixelmc.pixelmcmanager.util.TimeFormatUtil;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class PlaceholderResolver {
-    public String resolve(String template, PlaceholderContext context) {
-        if (template == null || template.isEmpty()) {
+    private static final Pattern PLACEHOLDER = Pattern.compile("\\{([a-zA-Z0-9_]+)}");
+
+    public String resolve(String input, PlaceholderContext context) {
+        if (input == null || input.isEmpty()) {
             return "";
         }
 
-        ServerPlayer player = context.player();
-        PlayerStats stats = context.stats();
-        Map<String, String> values = new LinkedHashMap<>();
-        MinecraftServer server = player.level().getServer();
-        values.put("{player}", player.getGameProfile().name());
-        values.put("{uuid}", player.getUUID().toString());
-        values.put("{online}", server == null ? "0" : Integer.toString(server.getPlayerList().getPlayerCount()));
-        values.put("{max}", server == null ? "0" : Integer.toString(server.getMaxPlayers()));
-        values.put("{ping}", Integer.toString(Math.max(0, player.connection.latency())));
-        values.put("{join_count}", stats == null ? "0" : Integer.toString(stats.joinCount));
-        values.put("{playtime}", stats == null ? "0秒" : TimeFormatUtil.formatFriendly(stats.totalOnlineMillis));
-        values.put("{first_join}", stats == null ? "未知" : TimeFormatUtil.formatDateTime(stats.firstJoinEpochMillis, context.config().timezone, context.config().dateFormat, context.config().timeFormat));
-        values.put("{last_join}", TimeFormatUtil.formatDateTime(context.previousLastJoinEpochMillis(), context.config().timezone, context.config().dateFormat, context.config().timeFormat));
-
-        String resolved = template;
-        for (Map.Entry<String, String> entry : values.entrySet()) {
-            resolved = resolved.replace(entry.getKey(), entry.getValue());
+        Map<String, Supplier<String>> values = buildValues(context);
+        Matcher matcher = PLACEHOLDER.matcher(input);
+        StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            Supplier<String> supplier = values.get(matcher.group(1));
+            if (supplier == null) {
+                matcher.appendReplacement(result, Matcher.quoteReplacement(matcher.group(0)));
+            } else {
+                matcher.appendReplacement(result, Matcher.quoteReplacement(supplier.get()));
+            }
         }
-        return resolved;
+        matcher.appendTail(result);
+        return result.toString();
     }
 
-    public String resolveGlobal(String template, com.pixelmc.pixelmcmanager.config.WelcomeConfig config, MinecraftServer server) {
-        if (template == null || template.isEmpty()) {
+    public String resolveGlobal(String input, com.pixelmc.pixelmcmanager.config.WelcomeConfig config, MinecraftServer server) {
+        if (input == null || input.isEmpty()) {
             return "";
         }
 
         ZoneId zoneId = parseZone(config.timezone);
-        Map<String, String> values = new LinkedHashMap<>();
-        values.put("{online}", Integer.toString(server.getPlayerList().getPlayerCount()));
-        values.put("{max}", Integer.toString(server.getMaxPlayers()));
-        values.put("{date}", formatNow(config.dateFormat, zoneId));
-        values.put("{time}", formatNow(config.timeFormat, zoneId));
+        Map<String, Supplier<String>> values = new HashMap<>();
+        values.put("online", () -> Integer.toString(server.getPlayerList().getPlayerCount()));
+        values.put("max", () -> Integer.toString(server.getMaxPlayers()));
+        values.put("date", () -> formatNow(config.dateFormat, zoneId));
+        values.put("time", () -> formatNow(config.timeFormat, zoneId));
+        return resolve(input, values);
+    }
 
-        String resolved = template;
-        for (Map.Entry<String, String> entry : values.entrySet()) {
-            resolved = resolved.replace(entry.getKey(), entry.getValue());
+    private Map<String, Supplier<String>> buildValues(PlaceholderContext context) {
+        Map<String, Supplier<String>> values = new HashMap<>();
+        PlayerStats stats = context.stats();
+        MinecraftServer server = context.player().level().getServer();
+        ZoneId zoneId = parseZone(context.config().timezone);
+
+        values.put("player", () -> context.player().getGameProfile().name());
+        values.put("uuid", () -> context.player().getUUID().toString());
+        values.put("online", () -> Integer.toString(server == null ? 1 : server.getPlayerCount()));
+        values.put("max", () -> Integer.toString(server == null ? 0 : server.getMaxPlayers()));
+        values.put("join_count", () -> Integer.toString(stats == null ? 0 : stats.joinCount));
+        values.put("playtime", () -> TimeFormatUtil.formatFriendly(stats == null ? 0L : stats.totalOnlineMillis));
+        values.put("playtime_hours", () -> Long.toString((stats == null ? 0L : stats.totalOnlineMillis) / 3_600_000L));
+        values.put("playtime_minutes", () -> Long.toString((stats == null ? 0L : stats.totalOnlineMillis) / 60_000L));
+        values.put("ping", () -> Integer.toString(Math.max(0, context.player().connection.latency())));
+        values.put("date", () -> formatNow(context.config().dateFormat, zoneId));
+        values.put("time", () -> formatNow(context.config().timeFormat, zoneId));
+        values.put("first_join_date", () -> formatEpoch(stats == null ? 0L : stats.firstJoinEpochMillis, context.config().dateFormat, zoneId));
+        values.put("last_join_date", () -> formatEpoch(context.lastJoinDateEpochMillis(), context.config().dateFormat, zoneId));
+        // Fabric <=0.3.0 used these aliases; existing welcome configuration stays valid.
+        values.put("first_join", () -> TimeFormatUtil.formatDateTime(stats == null ? 0L : stats.firstJoinEpochMillis, context.config().timezone, context.config().dateFormat, context.config().timeFormat));
+        values.put("last_join", () -> TimeFormatUtil.formatDateTime(context.lastJoinDateEpochMillis(), context.config().timezone, context.config().dateFormat, context.config().timeFormat));
+        return values;
+    }
+
+    private static String resolve(String input, Map<String, Supplier<String>> values) {
+        Matcher matcher = PLACEHOLDER.matcher(input);
+        StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            Supplier<String> supplier = values.get(matcher.group(1));
+            if (supplier == null) {
+                matcher.appendReplacement(result, Matcher.quoteReplacement(matcher.group(0)));
+            } else {
+                matcher.appendReplacement(result, Matcher.quoteReplacement(supplier.get()));
+            }
         }
-        return resolved;
+        matcher.appendTail(result);
+        return result.toString();
     }
 
     private static ZoneId parseZone(String zone) {
@@ -66,10 +99,21 @@ public final class PlaceholderResolver {
     }
 
     private static String formatNow(String pattern, ZoneId zoneId) {
+        return formatter(pattern, zoneId).format(Instant.now());
+    }
+
+    private static String formatEpoch(long epochMillis, String pattern, ZoneId zoneId) {
+        if (epochMillis <= 0L) {
+            return "-";
+        }
+        return formatter(pattern, zoneId).format(Instant.ofEpochMilli(epochMillis));
+    }
+
+    private static DateTimeFormatter formatter(String pattern, ZoneId zoneId) {
         try {
-            return DateTimeFormatter.ofPattern(pattern).withZone(zoneId).format(Instant.now());
+            return DateTimeFormatter.ofPattern(pattern).withZone(zoneId);
         } catch (RuntimeException ignored) {
-            return DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId).format(Instant.now());
+            return DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(zoneId);
         }
     }
 }

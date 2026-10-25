@@ -6,38 +6,43 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class TimeArgumentParser {
-    private static final Pattern INPUT = Pattern.compile("^([1-9][0-9]*)([smh])$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern TIME_PATTERN = Pattern.compile("^([1-9][0-9]*)([smhSMH])$");
     private static final Duration MAX_DURATION = Duration.ofHours(24);
+    private static final String USAGE = "时间格式无效，请使用正整数加 s/m/h，例如 30s、10m、1h，最大 24h。";
 
     private TimeArgumentParser() {
     }
 
     public static Result parse(String input) {
-        if (input == null) {
-            return Result.failure("时间格式无效，请使用 1s、30s、1m、15m 或 1h。");
-        }
-        Matcher matcher = INPUT.matcher(input.trim().toLowerCase(Locale.ROOT));
-        if (!matcher.matches()) {
-            return Result.failure("时间格式无效，请使用正整数加 s/m/h，例如 30s、15m、1h。");
+        if (input == null || input.isBlank()) {
+            return Result.failure(USAGE);
         }
 
-        long value;
+        Matcher matcher = TIME_PATTERN.matcher(input.trim());
+        if (!matcher.matches()) {
+            return Result.failure(USAGE);
+        }
+
+        long amount;
         try {
-            value = Long.parseLong(matcher.group(1));
+            amount = Long.parseLong(matcher.group(1));
         } catch (NumberFormatException exception) {
-            return Result.failure("时间数值过大。");
+            return Result.failure(USAGE);
         }
 
         Duration duration;
         try {
             duration = switch (matcher.group(2).toLowerCase(Locale.ROOT)) {
-                case "s" -> Duration.ofSeconds(value);
-                case "m" -> Duration.ofMinutes(value);
-                case "h" -> Duration.ofHours(value);
-                default -> throw new IllegalStateException("Unexpected unit");
+                case "s" -> Duration.ofSeconds(amount);
+                case "m" -> Duration.ofMinutes(amount);
+                case "h" -> Duration.ofHours(amount);
+                default -> null;
             };
         } catch (ArithmeticException exception) {
             return Result.failure("计划时间最大为 24h。");
+        }
+        if (duration == null || duration.isZero() || duration.isNegative()) {
+            return Result.failure(USAGE);
         }
         if (duration.compareTo(MAX_DURATION) > 0) {
             return Result.failure("计划时间最大为 24h。");
@@ -50,8 +55,8 @@ public final class TimeArgumentParser {
             return new Result(true, duration, "");
         }
 
-        public static Result failure(String message) {
-            return new Result(false, Duration.ZERO, message);
+        public static Result failure(String errorMessage) {
+            return new Result(false, Duration.ZERO, errorMessage);
         }
     }
 }

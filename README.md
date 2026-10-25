@@ -4,39 +4,53 @@
 
 ## 中文
 
-为 Fabric 服务器提供进服问候、玩家统计和日常管理。
+PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.1 对应的服务器监控、玩家档案与日常管理功能。
 
 ### 功能
 
-- 分别设置首次进服和回归问候，支持占位符、颜色和渐变。
-- 记录玩家登录次数与累计在线时长。
-- 预约关服、安排维护，并查看管理操作记录。
-- 设置轮播公告和各项指令权限。
-- 支持保存配置、查询统计和预览消息。
+- 实时 TPS、MSPT、内存、玩家和维度数据，可接入常驻网页后台。
+- 保存累计在线时长、登录次数与登录历史，排除 Carpet 假人。
+- 配置首登/回归问候、轮播公告、颜色、渐变和占位符。
+- 预约关服、维护和空服 15 秒后重启；支持模组列表变化后自动重启。
+- 重启交由 MCSM 或独立托管脚本执行，沿用原启动命令和 JVM 参数。
+- 使用同一个网页后台管理整合包归档和可选扩展。
 
 ### 使用
 
-适用于 Minecraft **26.1.2 / Fabric**，需要 Fabric API，只需服务端安装。配置文件为 `config/pixelmcmanager.json`，指令入口为 `/pixelmcmanager`。
+适用于 Minecraft **26.1.2 / Fabric**。将本模组和 Fabric API 放入服务端 `mods/`，基础功能无需客户端安装或数据库。指令：`/pixelmcmanager`，配置：`config/pixelmcmanager.json`。
 
-当前 Fabric 版本提供上述游戏内功能，尚未接入 Forge 版的独立网页后台。
+可选的常驻网页按以下流程接入：
+
+1. 按 [Manager Service 部署说明](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/mc-1.20.1/manager-service) 单独运行共享后台和 MariaDB，并登记实例，取得实例 ID 与桥接令牌。
+2. 编辑 `config/pixelmcmanager-bridge.json`，填入后台地址 `baseUrl`、`instanceId`、`token`，把 `enabled` 设为 `true`。后台地址必须能从游戏容器访问。
+3. 保存后正常重启游戏服；首次连接时，在网页为该实例绑定当前存档/整合包。后台保持独立运行，游戏服关闭后仍可访问。
+
+[构建与接入细节](BUILDING.md)。
 
 ## English
 
-Join greetings, player statistics, and everyday administration for Fabric servers.
+The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.5.1.
 
 ### Features
 
-- Set separate first-join and returning-player greetings with placeholders, colors, and gradients.
-- Track player login counts and total playtime.
-- Schedule shutdowns and maintenance, and review administration history.
-- Configure rotating chat announcements and command permissions.
-- Save configuration, view statistics, and preview messages.
+- Stream live TPS, MSPT, memory, player and dimension data to the independent dashboard.
+- Retain playtime totals, login counts and history while excluding Carpet fake players.
+- Customize first/returning greetings and rotating announcements with colors, gradients and placeholders.
+- Schedule shutdowns, maintenance and restarts after 15 empty seconds, including mod-list changes.
+- Hand restarts to MCSM or the standalone supervisor, preserving the original command and JVM arguments.
+- Reuse the same web service for modpack archives and optional extensions.
 
 ### Usage
 
-For Minecraft **26.1.2 / Fabric**, with Fabric API. Install on the server only. Configuration: `config/pixelmcmanager.json`. Command: `/pixelmcmanager`.
+For Minecraft **26.1.2 / Fabric**. Put this mod and Fabric API in the server's `mods/` folder. Basic features need neither a client installation nor a database. Command: `/pixelmcmanager`. Configuration: `config/pixelmcmanager.json`.
 
-This Fabric version provides the in-game features above; the Forge edition’s independent web dashboard is not included.
+To optionally connect the always-on dashboard:
+
+1. Follow the shared [Manager Service setup](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/mc-1.20.1/manager-service) to run the backend with MariaDB and register an instance to obtain its ID and bridge token.
+2. Set `baseUrl`, `instanceId`, `token` and `enabled: true` in `config/pixelmcmanager-bridge.json`. The game container must be able to reach the backend URL.
+3. Save and restart the game server normally. On first connection, bind that instance to the current world/modpack in the web console. Keep the backend running separately so it remains available while the game is stopped.
+
+See [building and setup details](BUILDING.md).
 
 ---
 
