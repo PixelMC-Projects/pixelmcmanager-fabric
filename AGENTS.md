@@ -19,7 +19,7 @@ Hard rules:
 - Keep automatic announcements disabled by default, chat-only, sequential, reload-aware, and low overhead; do not format messages every tick.
 - Use Gradle/Maven Aliyun mirrors where applicable, while preserving Fabric official Maven.
 - Always run a clean Gradle build before claiming success.
-- Push to git@github.com:zcpu954861/pixelmcmanager-fabric.git only after build succeeds.
+- Push to git@github.com:PixelMC-Projects/pixelmcmanager-fabric.git only after build succeeds.
 
 GitHub Release title format:
 - Forge: PixelMC Manager Forge <mod_version>
