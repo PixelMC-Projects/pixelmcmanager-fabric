@@ -6,6 +6,8 @@
 
 PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.2 对应的服务器监控、玩家档案与日常管理功能。
 
+抽签网页头像修复见 [0.5.2-web.1 服务补丁](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.5.2-web.1)。现有游戏模组保持 0.5.2，只更新独立网页服务；原 0.5.2 完整发行包保留不变。
+
 ### 功能
 
 - 实时 TPS、MSPT、内存、玩家和维度数据，可接入常驻网页后台。
@@ -32,6 +34,8 @@ Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同�
 ## English
 
 The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.5.2.
+
+The [0.5.2-web.1 service patch](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.5.2-web.1) fixes fortune-page avatar sizes. Keep the existing 0.5.2 game mod and update the independent web service. The original complete 0.5.2 release is preserved.
 
 ### Features
 

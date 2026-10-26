@@ -56,7 +56,7 @@
 | `pixelmcmanager-fabric-26.2-0.5.2.jar` | `685b60038e06f866f307ac6dfbd3940e7895acf425aa407ebd110f9b8f2751b0` |
 | 两个 `0.5.2-sources.jar`（当前游戏内源码一致） | `f75586db4f2afe35155bfed5793de3c413ced708a763059e08fed4d4c224231f` |
 
-## 最终共享源版本与服务包
+## 0.5.2 原始共享源版本与服务包
 
 下列正式源提交已锁定；两版 Fabric 使用同一个共享服务包，不重编为不同变体。最后的字段中文标签、带版本戳导入预览、抽签备份时间、设置草稿 baseline/日历总数合并及 HTTP 环境 ID 兼容等修正均由此共享服务提供。
 
@@ -66,9 +66,22 @@
 | [MemorialTitles 共享业务](https://github.com/PixelMC-Projects/MemorialTitles/tree/0bc729f3030c5d0a0df6c8442a561c3a9cc8685a) | `0bc729f3030c5d0a0df6c8442a561c3a9cc8685a` |
 | [DailyFortunes 共享业务](https://github.com/PixelMC-Projects/DailyFortunes/tree/9e5b6e6c14fa4cede433eadc126b3abe172333f0) | `9e5b6e6c14fa4cede433eadc126b3abe172333f0` |
 
-`forge-source-parity.json` 已按最终 Forge 提交验证全部 38 个 Java 源文件及从 0.5.1 起的 68 个变更路径。服务包内的 README 包含三个仓库的完整源链接；构建参数见本仓 `BUILDING.md`。这些源码链接不表示 DailyFortunes 游戏模组已发布或已适配 Fabric。
+原 `v0.5.2` 标签内的 `forge-source-parity.json` 按当时的最终 Forge 提交验证全部 38 个 Java 源文件及从 0.5.1 起的 68 个变更路径。服务包内的 README 包含三个仓库的完整源链接；构建参数见本仓 `BUILDING.md`。这些源码链接不表示 DailyFortunes 游戏模组已发布或已适配 Fabric。
 
 | 共用附件 | SHA-256 |
 | --- | --- |
 | `pixelmc-manager-service-0.5.2.zip` | `bf7d99ac0c9fe47ad914ebaf5a4cbf3323ee96fc47d6144a0d1f1df031e87122` |
 | `pixelmcmanager-restart-supervisor-0.5.2.zip` | `e0abdcf74106b8db643271c3761b9356197f59db37f3254295fdcff98a348ec8` |
+
+## 0.5.2-web.1 服务头像补丁
+
+- 目的：纠正 DailyFortunes 玩家头像过小，列表恢复 32×32px，详情恢复 40×40px；Vite 开发扫描限定为正式 `index.html` 入口。网页源固定为 [e1ccabd17aa53137361ff8e000f06fe53ce1934d](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/e1ccabd17aa53137361ff8e000f06fe53ce1934d)。当前 `forge-source-parity.json` 已更新到此提交，覆盖同一 38 个游戏内 Java 文件及 80 个 Forge 变更路径。新增 Forge 实例运维协调脚本按归属登记，不移植或执行为 Fabric 部署。
+- 范围：在已发布原服务 JAR 上仅替换 `web/` 与 manifest 版本。619 个 `.class` 及所有其他后端/默认资源条目逐字节不变；原 MemorialTitles / DailyFortunes 后端源码 pin 沿用上表。两个 Fabric 游戏 JAR 和 sources JAR 的原 SHA-256 均保持不变。本轮不重新编译 Minecraft 模组。
+- 兼容：现有 Minecraft 26.1.2 / 26.2 的 Fabric Manager 0.5.2；独立服务继续使用 Java 17 + MariaDB。补丁只发布服务 ZIP 和 `SHA256SUMS`，保留原 `v0.5.2` 标签及七个附件，并继续将完整 0.5.2 标为 Latest。
+- 维护方验收：最终补丁 JAR 使用真实本地 SQL/API 浏览器检查，列表 32×32、详情 40×40；深浅主题截图保存于共享 Forge 工程的 `web-console/screenshots/dailyfortunes-production-20261026/calendar-web-patch-{dark,light}.png`。这是隔离本地 UI 证据，不是生产游戏联调。
+- 升级/回滚：正常停止独立网页服务，保留配置与数据后替换 `service.jar`，按原命令启动并刷新网页；回滚仅恢复原 0.5.2 的 `service.jar`。本轮未部署 Fabric 或操作其游戏进程。
+
+| 附件/内容 | SHA-256 |
+| --- | --- |
+| `pixelmc-manager-service-0.5.2-web.1.zip` | `462442b24c48ccde9493011a84e117b8dc81a12d550824c8a52a85204d935b2c` |
+| ZIP 内 `service.jar` | `d13c8c8e4817f9b55e56f53eb5070eee63b1d71a6a28a26c4e8399a584b1d1e6` |

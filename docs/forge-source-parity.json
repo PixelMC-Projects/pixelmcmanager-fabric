@@ -3,7 +3,7 @@
   "modVersion": "0.5.2",
   "minecraftVersion": "26.2",
   "forgeRepository": "https://github.com/PixelMC-Projects/pixelmcmanager-forge",
-  "forgeCommit": "961cde16accdbe72601a4662ad99afcaf8e995f5",
+  "forgeCommit": "e1ccabd17aa53137361ff8e000f06fe53ce1934d",
   "forgeBaseline": "dc4463664d2cfd3304fe5a7d384a3c1f9de2c891",
   "normalization": "CRLF converted to LF; all other bytes preserved",
   "files": [
@@ -314,6 +314,61 @@
       "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
     },
     {
+      "path": "ops/staging/20261026-manager-ui/README.md",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/activate-manager-ui.sh",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/configure-future-start.py",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/coordinate-future-web.py",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/coordinate-startup.sh",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/coordinator-local-test.py",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/install-future-coordinator.py",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/launch-manager.sh",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/prepare-remote-stage.py",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/startup-manager-ui.sh",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
+      "path": "ops/staging/20261026-manager-ui/update-web-patch.py",
+      "ownership": "forge-deployment-operations",
+      "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
+    },
+    {
       "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/BridgeAgent.java",
       "ownership": "ported-mod",
       "fabricHandling": "Port business changes; retain reviewed Fabric / Minecraft 26 API adaptations."
@@ -330,6 +385,11 @@
     },
     {
       "path": "tools/package_manager.py",
+      "ownership": "shared-packaging",
+      "fabricHandling": "Reuse the shared reproducible service/supervisor packages and their documentation."
+    },
+    {
+      "path": "tools/package_service_web_patch.py",
       "ownership": "shared-packaging",
       "fabricHandling": "Reuse the shared reproducible service/supervisor packages and their documentation."
     },
