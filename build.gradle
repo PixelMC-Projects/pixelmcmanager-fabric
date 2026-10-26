@@ -82,6 +82,7 @@ sourceSets {
 }
 ['restartLogicTest': 'com.pixelmc.pixelmcmanager.restart.RestartLogicTest',
  'bridgeLogicTest': 'com.pixelmc.pixelmcmanager.bridge.BridgeLogicTest',
+ 'bridgeAdmissionTest': 'com.pixelmc.pixelmcmanager.bridge.BridgeAdmissionTest',
  'lifecycleShutdownTest': 'com.pixelmc.pixelmcmanager.compat.LifecycleShutdownTest',
  'textParityTest': 'com.pixelmc.pixelmcmanager.text.TextParityTest'].each { taskName, entry ->
     tasks.register(taskName, JavaExec) {

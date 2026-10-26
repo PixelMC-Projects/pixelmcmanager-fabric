@@ -34,6 +34,21 @@ Local player checkpoints and pending login uploads stay in the active world's `p
 扩展使用 `com.pixelmc.pixelmcmanager.api.ManagerBridgeApi` 注册，不绑定 Forge API。游戏内扩展本身仍需对应加载器版本；不能直接把 Forge 扩展 JAR 放进 Fabric。
 Extensions register through the loader-independent `ManagerBridgeApi`. An in-game extension still needs a Fabric-compatible build; a Forge extension JAR does not become loadable on Fabric merely by sharing the backend.
 
+### 0.5.2 共享源码 / Shared sources
+
+Manager Service 0.5.2 的构建同时需要 `MemorialTitles` 和 `DailyFortunes` 源码。把三仓放在同一父目录，或在共享 Forge 工程构建时传入 `-PmemorialTitlesDir=/path/to/MemorialTitles -PdailyFortunesDir=/path/to/DailyFortunes`。后端仍使用 Java 17；Fabric 模组使用 Java 25，两者不需要使用同一个 Java 进程。
+Building Manager Service 0.5.2 requires the `MemorialTitles` and `DailyFortunes` sources. Clone the three projects side by side, or pass `-PmemorialTitlesDir=/path/to/MemorialTitles -PdailyFortunesDir=/path/to/DailyFortunes` when building the shared Forge project. The backend stays on Java 17 and the Fabric mod stays on Java 25; they run independently.
+
+本轮精确源版本、全文件移植对照和验证边界见 [正式移植记录](docs/forge-port-parity.md)。`docs/forge-source-parity.json` 含完整游戏内 Java 清单、两侧规范化 SHA-256，以及自 Forge 0.5.1 起每个变更路径的归属；本地取得清单指定的 Forge 提交与 v0.5.1 基线后，可用 Python 3.9+ 只读验证：
+See the [formal port record](docs/forge-port-parity.md) for the exact source revisions, ownership and validation limits. `docs/forge-source-parity.json` covers every in-game Java source, its normalized SHA-256 on both loaders, and the ownership of every Forge change since 0.5.1. With its pinned Forge commit and v0.5.1 baseline available locally, verify read-only using Python 3.9+:
+
+```sh
+python tools/check_forge_parity.py --forge-repo /path/to/pixelmcmanager-forge
+```
+
+网页服务中的抽签页面及独立数据库支持不等于 Fabric 版抽签游戏扩展。DailyFortunes 当前游戏端只适用于 Forge 1.20.1；本次仅移植 Manager 桥接证明，不添加客户端依赖或抽签玩法。
+The shared fortune pages and database support do not supply a Fabric in-game fortune extension. DailyFortunes currently targets Forge 1.20.1. This port adds its Manager admission proof while keeping Manager server-only.
+
 ## 重启交接 / Restart supervision
 
 `/pixelmcmanager restart whenempty` 预约空服 15 秒后重启；`cancel` / `status` 取消或查询。`restart onmodchange on|off|status` 控制轻量模组变更检测，配置为 `restart.restartOnModChange`，默认关闭。监听 mods 顶层 JAR 文件事件，定期只核对文件元数据，不持续读 JAR 或递归扫盘。
