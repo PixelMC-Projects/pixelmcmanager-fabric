@@ -1,0 +1,592 @@
+{
+  "formatVersion": 2,
+  "modVersion": "0.5.2",
+  "minecraftVersion": "26.1.2",
+  "forgeRepository": "https://github.com/PixelMC-Projects/pixelmcmanager-forge",
+  "forgeCommit": "961cde16accdbe72601a4662ad99afcaf8e995f5",
+  "forgeBaseline": "dc4463664d2cfd3304fe5a7d384a3c1f9de2c891",
+  "normalization": "CRLF converted to LF; all other bytes preserved",
+  "files": [
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/PixelMCManager.java",
+      "mode": "adapted",
+      "forgeSha256": "75153d8ba84255320ca17a47ebb7e741be90430f99bb4ccceb860673310712ee",
+      "fabricSha256": "182f51c559b2a1f52c6ab5424705e8897fd39a5ab3ad77b37e78625c9acc6aab",
+      "reason": "Fabric ModInitializer and lifecycle/connection/chunk/tick callbacks; explicit event phase ordering and loader metadata."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/api/ManagerBridgeApi.java",
+      "mode": "shared",
+      "forgeSha256": "49f711840af5393460f1922174f9b042a50673ab92e6cfb4311db0272ca7ff19",
+      "fabricSha256": "49f711840af5393460f1922174f9b042a50673ab92e6cfb4311db0272ca7ff19"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/audit/AuditEntry.java",
+      "mode": "shared",
+      "forgeSha256": "33f34ebd39d609745517ac548cc5a564288961dd3cc8e06b05a5e1424a83cf64",
+      "fabricSha256": "33f34ebd39d609745517ac548cc5a564288961dd3cc8e06b05a5e1424a83cf64"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/audit/AuditService.java",
+      "mode": "adapted",
+      "forgeSha256": "12d870eb3a4b6706b233a6528e8576b0399fc9f10b682b07f5b38056187a925c",
+      "fabricSha256": "8ff0f3d8eb1b9d78d09ea985f65978f1c397f56a177f008e21a6f273f2150dc7",
+      "reason": "Read the mod version from FabricLoader instead of Forge ModList."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/BridgeAgent.java",
+      "mode": "adapted",
+      "forgeSha256": "5a6ae076d280717af526a69c5ee2d264ce138aef1301fca91557adf7366cc652",
+      "fabricSha256": "4e26df0b060c1c96898a40a1d443c07341ad4e691fcde231c079bf125cfeba8e",
+      "reason": "Fabric callbacks/config directory/fake-player classes/loader metadata plus Minecraft 26 profile, dimension, chunk, clock and latency APIs; same admission and transport semantics."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/BridgeConfig.java",
+      "mode": "shared",
+      "forgeSha256": "6213df6e9a98503e27e90fea0f9fdd65cd1976244a648e43ac176edfb117b246",
+      "fabricSha256": "6213df6e9a98503e27e90fea0f9fdd65cd1976244a648e43ac176edfb117b246"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/TelemetrySpool.java",
+      "mode": "shared",
+      "forgeSha256": "b0bed0469ac6e0043ad21d7e8cc2e3abdd616bd74ed70eb7ce9f45c92fb4c467",
+      "fabricSha256": "b0bed0469ac6e0043ad21d7e8cc2e3abdd616bd74ed70eb7ce9f45c92fb4c467"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/command/PixelMCManagerCommands.java",
+      "mode": "adapted",
+      "forgeSha256": "fae1e437353e5ba1fb616e04955086f45b6762ce56c1fe0f35e49c66c1db5ccb",
+      "fabricSha256": "5fd70397626c9b74901c3190effcc73744214f39d73e44b523cc6b2d786ebf74",
+      "reason": "Fabric command registration, Minecraft 26 OP permission categories and GameProfile.name()."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/compat/BackgroundExecutorShutdown.java",
+      "mode": "shared",
+      "forgeSha256": "112f283b5f64cb5a4562358787eeffb8ca87853c01f3f2036cd6d42b1dd78d4e",
+      "fabricSha256": "112f283b5f64cb5a4562358787eeffb8ca87853c01f3f2036cd6d42b1dd78d4e"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/config/AnnouncementConfig.java",
+      "mode": "shared",
+      "forgeSha256": "b6c389db3283f226c658197a9abe22c796c59492d17eed991c9cf766561f9bd8",
+      "fabricSha256": "b6c389db3283f226c658197a9abe22c796c59492d17eed991c9cf766561f9bd8"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/config/PermissionConfig.java",
+      "mode": "shared",
+      "forgeSha256": "c88aa7b2ff654fd96cc7fb840e3cfcf71af148d57c643f80d5ce56675aa68b31",
+      "fabricSha256": "c88aa7b2ff654fd96cc7fb840e3cfcf71af148d57c643f80d5ce56675aa68b31"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/config/RestartConfig.java",
+      "mode": "shared",
+      "forgeSha256": "2958ec412bc2059e611edb0afdb9afaf238d0e7435893f3ce62fbc890ae90ac7",
+      "fabricSha256": "2958ec412bc2059e611edb0afdb9afaf238d0e7435893f3ce62fbc890ae90ac7"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/config/WelcomeConfig.java",
+      "mode": "shared",
+      "forgeSha256": "60e04d24ca70e0b3be3040285676f2ece0cad8227a422bb53415251e99f3ff95",
+      "fabricSha256": "60e04d24ca70e0b3be3040285676f2ece0cad8227a422bb53415251e99f3ff95"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/config/WelcomeConfigManager.java",
+      "mode": "adapted",
+      "forgeSha256": "7eb5bf0052f9e54519dce0ed3d074b7149a505c140dc78f165bbbe02c1800fb8",
+      "fabricSha256": "13e409336734d1ed28e46a4bce9e5a9f70a48dd40c658f592ddcda93bbcfccd8",
+      "reason": "Resolve the config directory through FabricLoader while preserving migration and atomic-save behavior."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/event/AnnouncementScheduler.java",
+      "mode": "shared",
+      "forgeSha256": "323cc680459fa9b0e4bed07285ea3fb5004f998795b9925dd342c34f437f3b98",
+      "fabricSha256": "323cc680459fa9b0e4bed07285ea3fb5004f998795b9925dd342c34f437f3b98"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/event/DelayedMessageScheduler.java",
+      "mode": "adapted",
+      "forgeSha256": "f35b118b0e4e8297d231ead91323f6c6fa0009535496128c89157b4e8c7870ae",
+      "fabricSha256": "d2b32d843d286b97e27a27d3f273ad1ade032a505ef24e7dea8a5a8390fd1595",
+      "reason": "Accept MinecraftServer from the Fabric END_SERVER_TICK callback instead of a Forge event."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/event/WelcomeEventHandler.java",
+      "mode": "adapted",
+      "forgeSha256": "e10c624ac46bad79c7afcdb1bef1bd9afe6048d755dd4824b96ab3a6cddfdc0b",
+      "fabricSha256": "b2dc565e684b9a22d1ed4135e3442cfd3a745b52670c6793bdc9d32815985291",
+      "reason": "Fabric lifecycle/join/logout/end-tick entrypoints and Minecraft 26 player level accessor; preserve admission order and wall-clock accounting."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/maintenance/MaintenancePlan.java",
+      "mode": "shared",
+      "forgeSha256": "47ac64e1196d61aaec41056277b5ed057de325f0df7903f709d4b31dfdbc3a42",
+      "fabricSha256": "47ac64e1196d61aaec41056277b5ed057de325f0df7903f709d4b31dfdbc3a42"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/maintenance/MaintenanceScheduler.java",
+      "mode": "shared",
+      "forgeSha256": "8e2ce63942e4ff10b89ea560627d39f28eafa56d94901fb3b7abde414ee134ec",
+      "fabricSha256": "8e2ce63942e4ff10b89ea560627d39f28eafa56d94901fb3b7abde414ee134ec"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/maintenance/StopServerPlan.java",
+      "mode": "shared",
+      "forgeSha256": "baee4ab333be6e4a74ae0607ead7c1064307ae92e2662b0095c1b85d6064d2a4",
+      "fabricSha256": "baee4ab333be6e4a74ae0607ead7c1064307ae92e2662b0095c1b85d6064d2a4"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/maintenance/StopServerScheduler.java",
+      "mode": "adapted",
+      "forgeSha256": "db44824f40f5384de229fe902afb5b806016fe3c4724f6e31ef52a8e10bfec39",
+      "fabricSha256": "37caafc254cf8855dcb8dd8de74b9e841a7417a43a07abd0f1b0a56ecc384319",
+      "reason": "Accept MinecraftServer from Fabric END_SERVER_TICK while retaining the shutdown state machine."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/maintenance/TimeArgumentParser.java",
+      "mode": "shared",
+      "forgeSha256": "32d3232671418348e29efacefb402e6d4a9124b51f80eff2084f59b30d483d53",
+      "fabricSha256": "32d3232671418348e29efacefb402e6d4a9124b51f80eff2084f59b30d483d53"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/placeholder/PlaceholderContext.java",
+      "mode": "shared",
+      "forgeSha256": "6274c7437b781347e066f187d9c57fbbd3ee0cb46697847e0a332945ee08fd92",
+      "fabricSha256": "6274c7437b781347e066f187d9c57fbbd3ee0cb46697847e0a332945ee08fd92"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/placeholder/PlaceholderResolver.java",
+      "mode": "adapted",
+      "forgeSha256": "685175eed120974f60c4e00366421e85fd63d3b78959fece9039c6b391dfb742",
+      "fabricSha256": "dab31e1476d038f04729abd62ecc3311eb0b9f232fcc3e50df37ea230afe2883",
+      "reason": "Minecraft 26 profile/level/latency accessors; retain historical Fabric first_join and last_join aliases."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/restart/IdleRestartScheduler.java",
+      "mode": "adapted",
+      "forgeSha256": "4ddcaa6790b96e7b10b10460d28afcaacbf6838f7d1ba06cd79ad007d28e4c66",
+      "fabricSha256": "f387816df9545e2ecb7ae395c62bc8a6ac785a8c8fdd8a2b9c2a8ab98aed54af",
+      "reason": "Resolve the game/mods directories through FabricLoader; retain the same restart IPC and metadata-only monitor."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/restart/IdleRestartState.java",
+      "mode": "shared",
+      "forgeSha256": "e216f3841ee97d272805c67329d70df920fab0a7a2ac3ef9becdcc357fa5b93f",
+      "fabricSha256": "e216f3841ee97d272805c67329d70df920fab0a7a2ac3ef9becdcc357fa5b93f"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/restart/ModDirectoryMonitor.java",
+      "mode": "shared",
+      "forgeSha256": "27dbbd23a7006244aa1359f38e75c421650ee79fb71f62db8a0d67a4bef38fd0",
+      "fabricSha256": "27dbbd23a7006244aa1359f38e75c421650ee79fb71f62db8a0d67a4bef38fd0"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/restart/ModDirectorySnapshot.java",
+      "mode": "shared",
+      "forgeSha256": "ede8217ecfb7c53139486be532d083bb044c1cd9520bed51c8f046760762c4e6",
+      "fabricSha256": "ede8217ecfb7c53139486be532d083bb044c1cd9520bed51c8f046760762c4e6"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/restart/RestartBridgeClient.java",
+      "mode": "shared",
+      "forgeSha256": "c9d3a4d00bb85317df30901593353d8146c20dc2f39aad3200426b53821fb1fc",
+      "fabricSha256": "c9d3a4d00bb85317df30901593353d8146c20dc2f39aad3200426b53821fb1fc"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/runtime/ServerRuntimeStats.java",
+      "mode": "shared",
+      "forgeSha256": "4f6680183250f90ff7db276e44fa70f87ee90fe9582ceacf1edf91d9b5546db6",
+      "fabricSha256": "4f6680183250f90ff7db276e44fa70f87ee90fe9582ceacf1edf91d9b5546db6"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/stats/PlayerLoginSnapshot.java",
+      "mode": "shared",
+      "forgeSha256": "e50f9d1a195d87b4b581fe983ec238ea6721954e3f097786d23d7f09e79b8499",
+      "fabricSha256": "e50f9d1a195d87b4b581fe983ec238ea6721954e3f097786d23d7f09e79b8499"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/stats/PlayerStats.java",
+      "mode": "shared",
+      "forgeSha256": "cd5e5c9efcc9f6ed1088c1557527814b62bc094279ed2f14d69453111cca7d83",
+      "fabricSha256": "cd5e5c9efcc9f6ed1088c1557527814b62bc094279ed2f14d69453111cca7d83"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/stats/PlayerStatsEntry.java",
+      "mode": "shared",
+      "forgeSha256": "b72ea80170f48a7bb9fa854aee9eb137bf113d031031ca6e287b732b626ee222",
+      "fabricSha256": "b72ea80170f48a7bb9fa854aee9eb137bf113d031031ca6e287b732b626ee222"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/stats/PlayerStatsStore.java",
+      "mode": "adapted",
+      "forgeSha256": "19db01e3614bdd1ef0450d82297fb39ab34cea5ce0e376dd22208a602c469ec5",
+      "fabricSha256": "4bb4b21205508e8a89bed26ab9ad0dc09249d9c64bdc1e30db2bf5c458e5d3f3",
+      "reason": "Use Minecraft 26 GameProfile.name() with the same world-local player data and wall-clock totals."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/text/GradientParser.java",
+      "mode": "shared",
+      "forgeSha256": "5ee61bdb90f6d234e6b8a2375792453ec2b07b2fb5aa2421267b02f56624661f",
+      "fabricSha256": "5ee61bdb90f6d234e6b8a2375792453ec2b07b2fb5aa2421267b02f56624661f"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/text/LegacyFormatParser.java",
+      "mode": "shared",
+      "forgeSha256": "c674b2342b324b2ad5fb862d127ba8cbddfe3729de8576ac28ba52befc78a135",
+      "fabricSha256": "c674b2342b324b2ad5fb862d127ba8cbddfe3729de8576ac28ba52befc78a135"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/text/TextTemplateParser.java",
+      "mode": "shared",
+      "forgeSha256": "8bd9d5c23ea854adf1f4773fcd4b7751216524be9cc5949febca17bd1cd0cc57",
+      "fabricSha256": "8bd9d5c23ea854adf1f4773fcd4b7751216524be9cc5949febca17bd1cd0cc57"
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/util/TimeFormatUtil.java",
+      "mode": "shared",
+      "forgeSha256": "dd1cdacadb7910311903eae21faa81caaa81b7b489ad74febb77ea9d72bf2fa9",
+      "fabricSha256": "dd1cdacadb7910311903eae21faa81caaa81b7b489ad74febb77ea9d72bf2fa9"
+    }
+  ],
+  "forgeChanges": [
+    {
+      "path": "AGENTS.md",
+      "ownership": "development-guidance",
+      "fabricHandling": "Read the shared plugin UI standard; keep this repository's Fabric-only rules."
+    },
+    {
+      "path": "BUILDING.md",
+      "ownership": "documentation",
+      "fabricHandling": "Document matching Fabric game versions, shared source dependencies and optional-extension compatibility."
+    },
+    {
+      "path": "build.gradle",
+      "ownership": "loader-build-and-shared-service",
+      "fabricHandling": "Register equivalent Fabric checks; shared service source sets, dependencies and web build remain in the Forge service project."
+    },
+    {
+      "path": "docs/manager-ui-integration-20261026.md",
+      "ownership": "shared-validation-documentation",
+      "fabricHandling": "Keep the authoritative UI/backend acceptance record with the shared Forge service; record Fabric verification here."
+    },
+    {
+      "path": "gradle.properties",
+      "ownership": "loader-build",
+      "fabricHandling": "Synchronize mod_version=0.5.2; retain each Fabric Minecraft/API/Java 25 version."
+    },
+    {
+      "path": "manager-service/README.md",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/deploy/ManagerUiReadiness.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/deploy/manager.example.json",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/Main.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/ManagerController.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/ManagerRestore.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/ServiceConfig.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/src/test/java/com/pixelmc/manager/service/IntegrationChecks.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/BridgeAgent.java",
+      "ownership": "ported-mod",
+      "fabricHandling": "Port business changes; retain reviewed Fabric / Minecraft 26 API adaptations."
+    },
+    {
+      "path": "src/restartChecks/java/com/pixelmc/pixelmcmanager/bridge/BridgeAdmissionTest.java",
+      "ownership": "ported-check",
+      "fabricHandling": "Use the same behavioral check on both Fabric versions with their game runtime classpaths."
+    },
+    {
+      "path": "tools/RESTART_SUPERVISOR.md",
+      "ownership": "shared-packaging",
+      "fabricHandling": "Reuse the shared reproducible service/supervisor packages and their documentation."
+    },
+    {
+      "path": "tools/package_manager.py",
+      "ownership": "shared-packaging",
+      "fabricHandling": "Reuse the shared reproducible service/supervisor packages and their documentation."
+    },
+    {
+      "path": "web-console/README.md",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/docs/插件页面风格规范.md",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/fortune-preview.html",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/package.json",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/App.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/Extensions.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/FortuneWorkspace.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/PluginSubtitle.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/Sidebar.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/TitlesWorkspace.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/extensionRegistry.js",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune-preview/Avatar.jsx",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/FortuneDataSettings.jsx",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/PluginSubtitle.jsx",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/PreviewApp.jsx",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/README.md",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/assets/fortune-hover.png",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/assets/fortune-slip.png",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/fixtures.js",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/fortunes.json",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/main.jsx",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/mockPlatform.js",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/mockTelemetry.js",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/mockTransport.js",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/model.js",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/pages.jsx",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune-preview/preview.css",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/src/fortune/FortuneDataSettings.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune/api.js",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune/assets/fortune-hover.png",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune/assets/fortune-slip.png",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune/model.js",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune/module.css",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/fortune/pages.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/layout.css",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/listChrome.css",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/main.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/styles.css",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/History.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/Players.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/Settings.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/SortLabel.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/Titles.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/module.css",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/previewStore.js",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/titles/sorting.js",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/src/views.jsx",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/tests/fortune-preview.test.mjs",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    },
+    {
+      "path": "web-console/tests/plugin-list-sorting.test.mjs",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/vite.config.mjs",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "web-console/vite.fortune-preview.config.mjs",
+      "ownership": "isolated-preview",
+      "fabricHandling": "Preserve only in the shared Forge source; keep local mocks/fixtures separate from the production web build and Fabric mod JAR."
+    }
+  ]
+}

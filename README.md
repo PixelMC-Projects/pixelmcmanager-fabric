@@ -4,7 +4,7 @@
 
 ## 中文
 
-PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.1 对应的服务器监控、玩家档案与日常管理功能。
+PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.2 对应的服务器监控、玩家档案与日常管理功能。
 
 ### 功能
 
@@ -25,11 +25,13 @@ PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.1 对应的服务�
 2. 编辑 `config/pixelmcmanager-bridge.json`，填入后台地址 `baseUrl`、`instanceId`、`token`，把 `enabled` 设为 `true`。后台地址必须能从游戏容器访问。
 3. 保存后正常重启游戏服；首次连接时，在网页为该实例绑定当前存档/整合包。后台保持独立运行，游戏服关闭后仍可访问。
 
-[构建与接入细节](BUILDING.md)。
+[构建与接入细节](BUILDING.md) · [Forge/Fabric 移植对照](docs/forge-port-parity.md)。
+
+Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同一份独立服务；游戏扩展必须单独适配加载器。DailyFortunes 当前游戏端为 Forge 1.20.1，不能把该 JAR 放进 Fabric；本次没有宣称其 Fabric 游戏端已移植。
 
 ## English
 
-The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.5.1.
+The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.5.2.
 
 ### Features
 
@@ -50,7 +52,9 @@ To optionally connect the always-on dashboard:
 2. Set `baseUrl`, `instanceId`, `token` and `enabled: true` in `config/pixelmcmanager-bridge.json`. The game container must be able to reach the backend URL.
 3. Save and restart the game server normally. On first connection, bind that instance to the current world/modpack in the web console. Keep the backend running separately so it remains available while the game is stopped.
 
-See [building and setup details](BUILDING.md).
+See [building and setup details](BUILDING.md) and the [Forge/Fabric parity checklist](docs/forge-port-parity.md).
+
+Manager itself remains server-only. The dashboard, database backend and plugin UI use one shared independent service; in-game extensions require their own loader-compatible builds. DailyFortunes currently targets Forge 1.20.1; its Forge JAR cannot run on Fabric, and this update does not claim a Fabric game port.
 
 ---
 
