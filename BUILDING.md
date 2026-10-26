@@ -49,6 +49,21 @@ python tools/check_forge_parity.py --forge-repo /path/to/pixelmcmanager-forge
 网页服务中的抽签页面及独立数据库支持不等于 Fabric 版抽签游戏扩展。DailyFortunes 当前游戏端只适用于 Forge 1.20.1；本次仅移植 Manager 桥接证明，不添加客户端依赖或抽签玩法。
 The shared fortune pages and database support do not supply a Fabric in-game fortune extension. DailyFortunes currently targets Forge 1.20.1. This port adds its Manager admission proof while keeping Manager server-only.
 
+### 0.5.2-web.1 网页服务补丁 / Web service patch
+
+此补丁恢复抽签列表/详情头像的 32px / 40px 尺寸，适配现有两个版本的 Fabric Manager 0.5.2。下载补丁 ZIP 后，正常停止独立网页服务，备份并替换其中的 `service.jar`，保留现有 `manager.json`、`data/`、凭据、头像与备份，再按原命令启动并刷新网页。回滚时恢复原 0.5.2 的 `service.jar`，按相同步骤启动。游戏 JAR、数据库结构与 Java 业务字节码保持不变，游戏服和客户端不需要为此补丁更新或重启。
+This patch restores the fortune list/detail avatars to 32px / 40px and works with both existing Fabric Manager 0.5.2 versions. Stop only the independent web service normally, back up and replace `service.jar`, retain `manager.json`, `data/`, credentials, avatars and backups, then restart it with the original command and refresh the browser. Roll back by restoring the original 0.5.2 `service.jar`. Game JARs, database structure and Java business bytecode stay unchanged; this patch needs no game or client update/restart.
+
+补丁网页源固定为 [Forge e1ccabd](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/e1ccabd17aa53137361ff8e000f06fe53ce1934d)。维护方从经过校验的原 0.5.2 服务 JAR 仅替换 `web/` 和 manifest；619 个 `.class` 及全部其他条目逐字节不变。复刻时在该 Forge 提交的 `web-console/` 执行 `npm ci`、`npm run build`，再回到工程根运行：
+The web source is pinned to [Forge e1ccabd](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/e1ccabd17aa53137361ff8e000f06fe53ce1934d). The patch replaces only `web/` and the manifest in the verified original service JAR; all 619 `.class` files and every other entry remain byte-identical. To reproduce, run `npm ci` and `npm run build` in that Forge commit's `web-console/`, then run from its project root:
+
+```sh
+python tools/package_service_web_patch.py /path/to/pixelmc-manager-service-0.5.2.zip
+```
+
+输入包取自原 [0.5.2 完整发行](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.5.2)，工具会核验其中原始服务 JAR 的 SHA-256。Fabric 直接复用 Forge 的同字节服务补丁；新补丁校验和见移植记录及补丁 Release。原 0.5.2 标签、七附件与完整发行的 Latest 标记保持不变。
+Use the input package from the original [complete 0.5.2 release](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.5.2); the tool verifies its original service JAR SHA-256. Fabric reuses the exact Forge patch bytes. Checksums are in the port record and patch release. The original 0.5.2 tag, seven assets and Latest status are preserved.
+
 ## 重启交接 / Restart supervision
 
 `/pixelmcmanager restart whenempty` 预约空服 15 秒后重启；`cancel` / `status` 取消或查询。`restart onmodchange on|off|status` 控制轻量模组变更检测，配置为 `restart.restartOnModChange`，默认关闭。监听 mods 顶层 JAR 文件事件，定期只核对文件元数据，不持续读 JAR 或递归扫盘。
