@@ -85,3 +85,25 @@
 | --- | --- |
 | `pixelmc-manager-service-0.5.2-web.1.zip` | `462442b24c48ccde9493011a84e117b8dc81a12d550824c8a52a85204d935b2c` |
 | ZIP 内 `service.jar` | `d13c8c8e4817f9b55e56f53eb5070eee63b1d71a6a28a26c4e8399a584b1d1e6` |
+
+## Unified platform 0.6.0
+
+The game bridge exposes the same `registerStorage(String,String)` manifest API as Forge, includes manifests in hello, and retains current admitted-player proof for avatar uploads. Identity, namespace storage, web authentication and complete backup/restore run in the same shared Manager Service; Fabric does not embed a second service or require a client installation.
+
+
+本节为当前0.6.0记录，以上0.5.2和web补丁记录为历史证据。
+
+- 共享 Forge 源固定为 [`83cc7798bf7e5d73ed0e6cec768073bad6a321cc`](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/83cc7798bf7e5d73ed0e6cec768073bad6a321cc)；完整38个游戏Java源及从0.5.1起的全部变更路径由更新后的 `forge-source-parity.json` 覆盖。
+- namespace manifest、hello信息、真实玩家证明及 `platformStorage:1` 协商门槛与 Forge 一致。声明存储的扩展在旧网页/未迁移分库后端上会明确拒绝RPC。
+- 两分支均使用 JDK25 执行 `clean build --offline`；每分支76项检查通过（15入服与服务协商、9补传、7停服、35重启、10文本）。未启动Fabric可游玩世界或部署Fabric生产实例。
+- 平台49项隔离MariaDB检查、97项既有SQL/HTTP检查与真实旧分库到统一库的18项演练在共享服务完成；游戏统计仍保留存档内轻量检查点。
+- 共享服务最终JAR SHA256：`ebb5db80f580f2494d49e9e7045fcd142e3115b27297a676abb0cfa2f83a9a3c`。完整平台备份/空库恢复、统一玩家目录、账号和头像均由此同一后端提供。
+
+当前游戏附件：
+
+| 附件 | SHA-256 |
+| --- | --- |
+| `pixelmcmanager-fabric-26.1.2-0.6.0.jar` | `5a947b67c7d7d55a40b70e6174c67574b243cb21c48f02f7ba44374e9124a78b` |
+| `pixelmcmanager-fabric-26.1.2-0.6.0-sources.jar` | `c7ade8c375d7ff06e711c6a4046b6e61ace6b9318983866e698e3c8debb8ee26` |
+| `pixelmcmanager-fabric-26.2-0.6.0.jar` | `eb092e0dec9a57c44ad43b9e12e217c0aef498430efc5156d2b7b977c34441dc` |
+| `pixelmcmanager-fabric-26.2-0.6.0-sources.jar` | `c7ade8c375d7ff06e711c6a4046b6e61ace6b9318983866e698e3c8debb8ee26` |
