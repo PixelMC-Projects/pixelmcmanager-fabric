@@ -1,9 +1,9 @@
 {
   "formatVersion": 2,
-  "modVersion": "0.5.2",
+  "modVersion": "0.6.0",
   "minecraftVersion": "26.2",
   "forgeRepository": "https://github.com/PixelMC-Projects/pixelmcmanager-forge",
-  "forgeCommit": "e1ccabd17aa53137361ff8e000f06fe53ce1934d",
+  "forgeCommit": "83cc7798bf7e5d73ed0e6cec768073bad6a321cc",
   "forgeBaseline": "dc4463664d2cfd3304fe5a7d384a3c1f9de2c891",
   "normalization": "CRLF converted to LF; all other bytes preserved",
   "files": [
@@ -17,8 +17,8 @@
     {
       "path": "src/main/java/com/pixelmc/pixelmcmanager/api/ManagerBridgeApi.java",
       "mode": "shared",
-      "forgeSha256": "49f711840af5393460f1922174f9b042a50673ab92e6cfb4311db0272ca7ff19",
-      "fabricSha256": "49f711840af5393460f1922174f9b042a50673ab92e6cfb4311db0272ca7ff19"
+      "forgeSha256": "d721026925857903aa0a5748f73b8f20b8c642177433a1c40ee522a40413f0ca",
+      "fabricSha256": "d721026925857903aa0a5748f73b8f20b8c642177433a1c40ee522a40413f0ca"
     },
     {
       "path": "src/main/java/com/pixelmc/pixelmcmanager/audit/AuditEntry.java",
@@ -36,8 +36,8 @@
     {
       "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/BridgeAgent.java",
       "mode": "adapted",
-      "forgeSha256": "5a6ae076d280717af526a69c5ee2d264ce138aef1301fca91557adf7366cc652",
-      "fabricSha256": "4e26df0b060c1c96898a40a1d443c07341ad4e691fcde231c079bf125cfeba8e",
+      "forgeSha256": "40f01d389331c709023ccc07e2b0b84a7e699dc1a9225424416af1b64333ebd1",
+      "fabricSha256": "2ee7c9debae2861b8ad1a4cf9355c7a3d1cea6b7ca8691c91c38c516a69a9c0e",
       "reason": "Fabric callbacks/config directory/fake-player classes/loader metadata plus Minecraft 26 profile, dimension, chunk, clock and latency APIs; same admission and transport semantics."
     },
     {
@@ -249,6 +249,11 @@
   ],
   "forgeChanges": [
     {
+      "path": ".gitattributes",
+      "ownership": "repository-policy",
+      "fabricHandling": "Mirror LF enforcement for Linux shell entrypoints."
+    },
+    {
       "path": "AGENTS.md",
       "ownership": "development-guidance",
       "fabricHandling": "Read the shared plugin UI standard; keep this repository's Fabric-only rules."
@@ -259,6 +264,11 @@
       "fabricHandling": "Document matching Fabric game versions, shared source dependencies and optional-extension compatibility."
     },
     {
+      "path": "README.md",
+      "ownership": "shared-documentation",
+      "fabricHandling": "Link the shared platform API and deployment instructions; retain Fabric loader/version/build boundaries."
+    },
+    {
       "path": "build.gradle",
       "ownership": "loader-build-and-shared-service",
       "fabricHandling": "Register equivalent Fabric checks; shared service source sets, dependencies and web build remain in the Forge service project."
@@ -267,6 +277,11 @@
       "path": "docs/manager-ui-integration-20261026.md",
       "ownership": "shared-validation-documentation",
       "fabricHandling": "Keep the authoritative UI/backend acceptance record with the shared Forge service; record Fabric verification here."
+    },
+    {
+      "path": "docs/platform-storage-api.md",
+      "ownership": "shared-documentation",
+      "fabricHandling": "Link the shared platform API and deployment instructions; retain Fabric loader/version/build boundaries."
     },
     {
       "path": "gradle.properties",
@@ -294,6 +309,11 @@
       "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
     },
     {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/ManagerBackup.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
       "path": "manager-service/src/main/java/com/pixelmc/manager/service/ManagerController.java",
       "ownership": "shared-service",
       "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
@@ -304,6 +324,36 @@
       "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
     },
     {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/ManagerStore.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/PlatformAccounts.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/PlatformAvatars.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/PlatformDeletion.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/PlatformStore.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
+      "path": "manager-service/src/main/java/com/pixelmc/manager/service/PlatformWebServer.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
+    },
+    {
       "path": "manager-service/src/main/java/com/pixelmc/manager/service/ServiceConfig.java",
       "ownership": "shared-service",
       "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
@@ -312,6 +362,11 @@
       "path": "manager-service/src/test/java/com/pixelmc/manager/service/IntegrationChecks.java",
       "ownership": "shared-service",
       "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+    },
+    {
+      "path": "manager-service/src/test/java/com/pixelmc/manager/service/PlatformChecks.java",
+      "ownership": "shared-service",
+      "fabricHandling": "Use the exact same independent Java17 Manager Service package as Forge; no per-loader backend/frontend fork."
     },
     {
       "path": "ops/staging/20261026-manager-ui/README.md",
@@ -369,6 +424,61 @@
       "fabricHandling": "Keep the selected Forge-instance staging/coordinator operations in their owning Forge repository; Fabric uses the shared service artifact and its own upgrade instructions. No Fabric deployment is performed."
     },
     {
+      "path": "ops/unified-platform-20261027/README.md",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/UnifiedReadiness.java",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/deploy.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/migrate_storage.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/rehearse_upgrade.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/start-game.sh",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/test_deployment.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/test_migration.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/test_offsite.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "ops/unified-platform-20261027/update_offsite.py",
+      "ownership": "production-operations",
+      "fabricHandling": "Retain in shared Forge operations sources; do not execute Forge production deployment or claim Fabric production migration."
+    },
+    {
+      "path": "src/main/java/com/pixelmc/pixelmcmanager/api/ManagerBridgeApi.java",
+      "ownership": "game-mod",
+      "fabricHandling": "Identical shared Java source."
+    },
+    {
       "path": "src/main/java/com/pixelmc/pixelmcmanager/bridge/BridgeAgent.java",
       "ownership": "ported-mod",
       "fabricHandling": "Port business changes; retain reviewed Fabric / Minecraft 26 API adaptations."
@@ -401,7 +511,7 @@
     {
       "path": "web-console/docs/插件页面风格规范.md",
       "ownership": "shared-service",
-      "fabricHandling": "Use the exact same independent Manager Service package as Forge; do not fork backend or frontend per Fabric game version."
+      "fabricHandling": "Use the same independent Manager Service package and plugin UI standard as Forge; do not duplicate backend or frontend per loader."
     },
     {
       "path": "web-console/fortune-preview.html",

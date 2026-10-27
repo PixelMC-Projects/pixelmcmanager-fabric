@@ -34,6 +34,12 @@ Local player checkpoints and pending login uploads stay in the active world's `p
 扩展使用 `com.pixelmc.pixelmcmanager.api.ManagerBridgeApi` 注册，不绑定 Forge API。游戏内扩展本身仍需对应加载器版本；不能直接把 Forge 扩展 JAR 放进 Fabric。
 Extensions register through the loader-independent `ManagerBridgeApi`. An in-game extension still needs a Fabric-compatible build; a Forge extension JAR does not become loadable on Fabric merely by sharing the backend.
 
+### 0.6.0 统一平台 / Unified platform
+
+0.6.0共用服务需要MemorialTitles0.5.0-dev、DailyFortunes0.2.0共享源码。旧三个分库必须先按[平台部署与迁移说明](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/83cc7798bf7e5d73ed0e6cec768073bad6a321cc/manager-service)备份并迁至新空库；不要仅替换连接地址。Fabric与Forge复用同一独立服务包，所有扩展共用真人目录与命名空间，游戏端不另开一套数据库。
+
+The shared 0.6.0 service uses MemorialTitles 0.5.0-dev and DailyFortunes 0.2.0 sources. Follow the pinned platform deployment/migration guide before moving legacy split stores into a new empty schema; do not merely replace database URLs. Both Fabric versions use the same independent service, real-player directory and namespaced storage.
+
 ### 0.5.2 共享源码 / Shared sources
 
 Manager Service 0.5.2 的构建同时需要 `MemorialTitles` 和 `DailyFortunes` 源码。把三仓放在同一父目录，或在共享 Forge 工程构建时传入 `-PmemorialTitlesDir=/path/to/MemorialTitles -PdailyFortunesDir=/path/to/DailyFortunes`。后端仍使用 Java 17；Fabric 模组使用 Java 25，两者不需要使用同一个 Java 进程。

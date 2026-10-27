@@ -4,9 +4,8 @@
 
 ## 中文
 
-PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.2 对应的服务器监控、玩家档案与日常管理功能。
+PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.0 对应的服务器监控、玩家档案与日常管理功能。
 
-抽签网页头像修复见 [0.5.2-web.1 服务补丁](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.5.2-web.1)。现有游戏模组保持 0.5.2，只更新独立网页服务；原 0.5.2 完整发行包保留不变。
 
 ### 功能
 
@@ -15,7 +14,7 @@ PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.5.2 对应的服务�
 - 配置首登/回归问候、轮播公告、颜色、渐变和占位符。
 - 预约关服、维护和空服 15 秒后重启；支持模组列表变化后自动重启。
 - 重启交由 MCSM 或独立托管脚本执行，沿用原启动命令和 JVM 参数。
-- 使用同一个网页后台管理整合包归档和可选扩展。
+- 使用同一个网页后台、全局玩家库和命名空间存储管理整合包归档与可选扩展。
 
 ### 使用
 
@@ -33,9 +32,8 @@ Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同�
 
 ## English
 
-The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.5.2.
+The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.6.0.
 
-The [0.5.2-web.1 service patch](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.5.2-web.1) fixes fortune-page avatar sizes. Keep the existing 0.5.2 game mod and update the independent web service. The original complete 0.5.2 release is preserved.
 
 ### Features
 
@@ -44,7 +42,7 @@ The [0.5.2-web.1 service patch](https://github.com/PixelMC-Projects/pixelmcmanag
 - Customize first/returning greetings and rotating announcements with colors, gradients and placeholders.
 - Schedule shutdowns, maintenance and restarts after 15 empty seconds, including mod-list changes.
 - Hand restarts to MCSM or the standalone supervisor, preserving the original command and JVM arguments.
-- Reuse the same web service for modpack archives and optional extensions.
+- Reuse the same web service, global player directory and namespaced storage for archives and extensions.
 
 ### Usage
 
