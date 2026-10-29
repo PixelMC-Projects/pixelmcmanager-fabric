@@ -27,7 +27,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.time.Instant;
@@ -430,7 +429,7 @@ public final class PixelMCManagerCommands {
         PlayerStats stats = statsStore.getStats(player.getUUID());
         if (stats == null) {
             stats = new PlayerStats();
-            stats.name = player.getGameProfile().name();
+            stats.name = player.getGameProfile().getName();
             stats.joinCount = first ? 1 : 0;
             long now = System.currentTimeMillis();
             stats.firstJoinEpochMillis = now;
@@ -564,13 +563,7 @@ public final class PixelMCManagerCommands {
     }
 
     private static boolean hasPermission(CommandSourceStack source, int level) {
-        return switch (level) {
-            case 0 -> true;
-            case 1 -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR);
-            case 2 -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER);
-            case 3 -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN);
-            default -> source.permissions().hasPermission(Permissions.COMMANDS_OWNER);
-        };
+        return source.hasPermission(level);
     }
 
     private void send(CommandSourceStack source, String message) {

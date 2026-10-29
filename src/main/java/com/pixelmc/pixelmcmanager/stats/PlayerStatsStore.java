@@ -122,7 +122,7 @@ public final class PlayerStatsStore {
         if (stats.firstJoinEpochMillis <= 0L) {
             stats.firstJoinEpochMillis = nowMillis;
         }
-        stats.name = player.getGameProfile().name();
+        stats.name = player.getGameProfile().getName();
         stats.joinCount++;
         stats.lastJoinEpochMillis = nowMillis;
         lastAccountedMillis.put(uuid, nowMillis);

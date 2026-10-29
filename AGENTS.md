@@ -5,7 +5,7 @@ This repository is the official Fabric port of PixelMC Manager.
 Hard rules:
 - Keep mod id as pixelmcmanager.
 - Keep this project Fabric-only.
-- Use Minecraft-version branches; this version lives on mc-26.1.2.
+- Use Minecraft-version branches; this version lives on fabric/1.20.1.
 - Do not add Forge, NeoForge, Connector, or Architectury.
 - Do not require client installation.
 - Do not add gameplay content, blocks, items, entities, GUI, Mixin, or networking unless explicitly requested.
@@ -36,3 +36,5 @@ Jar filenames may include loader, Minecraft version, and mod version.
 Release notes must include a "兼容版本与附件" section.
 List each supported Minecraft version and the exact jar asset name there.
 Do not use a single "适用环境" section as the only compatibility description, because the same mod version may later include multiple Minecraft versions.
+
+- This branch targets Minecraft 1.20.1, Java 17; retain all Manager 0.6.0 bridge/service contracts.
