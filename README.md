@@ -4,59 +4,45 @@
 
 ## 中文
 
-PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.0 对应的服务器监控、玩家档案与日常管理功能。
-
+把服务器状态、玩家数据和日常管理集中到一个地方。模组可以独立使用，也可以接入常驻网页后台。
 
 ### 功能
 
-- 实时 TPS、MSPT、内存、玩家和维度数据，可接入常驻网页后台。
-- 保存累计在线时长、登录次数与登录历史，排除 Carpet 假人。
-- 配置首登/回归问候、轮播公告、颜色、渐变和占位符。
-- 预约关服、维护和空服 15 秒后重启；支持模组列表变化后自动重启。
-- 重启交由 MCSM 或独立托管脚本执行，沿用原启动命令和 JVM 参数。
-- 使用同一个网页后台、全局玩家库和命名空间存储管理整合包归档与可选扩展。
+- 实时查看 TPS、MSPT、内存、在线玩家与维度状态。
+- 记录累计在线时长、登录次数和登录历史，保留离线玩家资料。
+- 配置首次进服问候、回归问候和轮播公告，支持颜色与渐变。
+- 预约关服、维护和空服重启，也可在模组列表变化后安排空服重启。
+- 整合包结束后可归档数据，方便切换查看不同阶段的记录。
+- 通过扩展接入 MemorialTitles、DailyFortunes 等项目，共用玩家库、头像与完整备份。
 
 ### 使用
 
-适用于 Minecraft **26.1.2 / Fabric**。将本模组和 Fabric API 放入服务端 `mods/`，基础功能无需客户端安装或数据库。指令：`/pixelmcmanager`，配置：`config/pixelmcmanager.json`。
+适用于 Minecraft **1.21.1 / Fabric**，只需服务端安装，Java 21。
 
-可选的常驻网页按以下流程接入：
-
-1. 按 [Manager Service 部署说明](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/mc-1.20.1/manager-service) 单独运行共享后台和 MariaDB，并登记实例，取得实例 ID 与桥接令牌。
-2. 编辑 `config/pixelmcmanager-bridge.json`，填入后台地址 `baseUrl`、`instanceId`、`token`，把 `enabled` 设为 `true`。后台地址必须能从游戏容器访问。
-3. 保存后正常重启游戏服；首次连接时，在网页为该实例绑定当前存档/整合包。后台保持独立运行，游戏服关闭后仍可访问。
-
-[构建与接入细节](BUILDING.md) · [Forge/Fabric 移植对照](docs/forge-port-parity.md)。
-
-Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同一份独立服务；游戏扩展必须单独适配加载器。DailyFortunes 当前游戏端为 Forge 1.20.1，不能把该 JAR 放进 Fabric；本次没有宣称其 Fabric 游戏端已移植。
+1. 将本模组与 Fabric API 放入服务端 `mods/`，启动后生成 `config/pixelmcmanager.json`，按需修改问候、公告和管理配置。
+2. 只使用模组功能时，不需要数据库或网页程序。
+3. 需要网页时，先按 [Manager Service 部署流程](https://github.com/PixelMC-Projects/pixelmcmanager-forge/blob/6b27a14adc0317143f1dec68e019a1430974e5c0/manager-service/README.md) 启动独立后台，再把生成的实例桥接配置放到 `config/pixelmcmanager-bridge.json`，重启游戏服接入。后台使用 MariaDB，游戏停服时仍可访问。
 
 ## English
 
-The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.6.0.
-
+Server monitoring, player records, and everyday administration in one place. Use the mod on its own or connect it to an independently running web service.
 
 ### Features
 
-- Stream live TPS, MSPT, memory, player and dimension data to the independent dashboard.
-- Retain playtime totals, login counts and history while excluding Carpet fake players.
-- Customize first/returning greetings and rotating announcements with colors, gradients and placeholders.
-- Schedule shutdowns, maintenance and restarts after 15 empty seconds, including mod-list changes.
-- Hand restarts to MCSM or the standalone supervisor, preserving the original command and JVM arguments.
-- Reuse the same web service, global player directory and namespaced storage for archives and extensions.
+- Monitor live TPS, MSPT, memory, players, and dimensions.
+- Keep playtime totals, login counts, login history, and offline player profiles.
+- Customize first-join greetings, returning-player messages, and rotating announcements with colors and gradients.
+- Schedule shutdowns, maintenance, and empty-server restarts, including restarts after mod-list changes.
+- Archive completed modpacks and browse records from earlier seasons.
+- Bring extensions such as MemorialTitles and DailyFortunes into one dashboard with shared player identities, avatars and complete backups.
 
 ### Usage
 
-For Minecraft **26.1.2 / Fabric**. Put this mod and Fabric API in the server's `mods/` folder. Basic features need neither a client installation nor a database. Command: `/pixelmcmanager`. Configuration: `config/pixelmcmanager.json`.
+For Minecraft **1.21.1 / Fabric**. Install on the server only; Java 21.
 
-To optionally connect the always-on dashboard:
-
-1. Follow the shared [Manager Service setup](https://github.com/PixelMC-Projects/pixelmcmanager-forge/tree/mc-1.20.1/manager-service) to run the backend with MariaDB and register an instance to obtain its ID and bridge token.
-2. Set `baseUrl`, `instanceId`, `token` and `enabled: true` in `config/pixelmcmanager-bridge.json`. The game container must be able to reach the backend URL.
-3. Save and restart the game server normally. On first connection, bind that instance to the current world/modpack in the web console. Keep the backend running separately so it remains available while the game is stopped.
-
-See [building and setup details](BUILDING.md) and the [Forge/Fabric parity checklist](docs/forge-port-parity.md).
-
-Manager itself remains server-only. The dashboard, database backend and plugin UI use one shared independent service; in-game extensions require their own loader-compatible builds. DailyFortunes currently targets Forge 1.20.1; its Forge JAR cannot run on Fabric, and this update does not claim a Fabric game port.
+1. Put this mod and Fabric API in the server's `mods/` folder. Start the server to generate `config/pixelmcmanager.json`, then configure greetings, announcements and management options.
+2. Standalone mod features need no database or web service.
+3. For the dashboard, follow the [Manager Service deployment steps](https://github.com/PixelMC-Projects/pixelmcmanager-forge/blob/6b27a14adc0317143f1dec68e019a1430974e5c0/manager-service/README.md), copy its generated instance configuration to `config/pixelmcmanager-bridge.json`, and restart the game server. The MariaDB-backed dashboard remains available while the game is stopped.
 
 ---
 

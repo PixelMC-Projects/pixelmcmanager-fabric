@@ -18,7 +18,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.*;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 public final class PixelMCManager implements ModInitializer {
@@ -51,22 +51,25 @@ public final class PixelMCManager implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> { events.onServerStarted(server); bridge.started(server); });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> { events.onServerStopping(server); bridge.stopping(server); });
         ServerLifecycleEvents.SERVER_STOPPED.register(bridge::stopped);
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> events.onPlayerLoggedIn(handler.player));
+        // Establish admission after all Manager join gates and before ordinary extension listeners.
+        ResourceLocation admission = ResourceLocation.fromNamespaceAndPath(MOD_ID, "player_admission");
+        ServerPlayConnectionEvents.JOIN.addPhaseOrdering(admission, Event.DEFAULT_PHASE);
+        ServerPlayConnectionEvents.JOIN.register(admission, (handler, sender, server) -> events.onPlayerLoggedIn(handler.player));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> events.onPlayerLoggedOut(handler.player));
-        ServerChunkEvents.CHUNK_LOAD.register((level, chunk, generated) -> bridge.chunkLoaded(level, chunk));
+        ServerChunkEvents.CHUNK_LOAD.register((level, chunk) -> bridge.chunkLoaded(level, chunk));
         ServerChunkEvents.CHUNK_UNLOAD.register(bridge::chunkUnloaded);
         // Surround normal Fabric listeners like Forge's HIGHEST START / LOWEST END priorities.
-        Identifier early = Identifier.fromNamespaceAndPath(MOD_ID, "telemetry_start");
-        Identifier late = Identifier.fromNamespaceAndPath(MOD_ID, "telemetry_end");
+        ResourceLocation early = ResourceLocation.fromNamespaceAndPath(MOD_ID, "telemetry_start");
+        ResourceLocation late = ResourceLocation.fromNamespaceAndPath(MOD_ID, "telemetry_end");
         ServerTickEvents.START_SERVER_TICK.addPhaseOrdering(early, Event.DEFAULT_PHASE);
         ServerTickEvents.START_SERVER_TICK.register(early, bridge::beginTick);
         ServerTickEvents.END_SERVER_TICK.register(events::onServerTick);
         ServerTickEvents.END_SERVER_TICK.addPhaseOrdering(Event.DEFAULT_PHASE, late);
         ServerTickEvents.END_SERVER_TICK.register(late, bridge::endTick);
-        ServerTickEvents.START_LEVEL_TICK.addPhaseOrdering(early, Event.DEFAULT_PHASE);
-        ServerTickEvents.START_LEVEL_TICK.register(early, bridge::beginLevel);
-        ServerTickEvents.END_LEVEL_TICK.addPhaseOrdering(Event.DEFAULT_PHASE, late);
-        ServerTickEvents.END_LEVEL_TICK.register(late, bridge::endLevel);
+        ServerTickEvents.START_WORLD_TICK.addPhaseOrdering(early, Event.DEFAULT_PHASE);
+        ServerTickEvents.START_WORLD_TICK.register(early, bridge::beginLevel);
+        ServerTickEvents.END_WORLD_TICK.addPhaseOrdering(Event.DEFAULT_PHASE, late);
+        ServerTickEvents.END_WORLD_TICK.register(late, bridge::endLevel);
         LOGGER.info("PixelMC Manager Fabric {} loaded.", VERSION);
     }
 }

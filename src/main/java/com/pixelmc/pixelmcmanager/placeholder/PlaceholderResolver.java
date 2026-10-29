@@ -56,7 +56,7 @@ public final class PlaceholderResolver {
         MinecraftServer server = context.player().level().getServer();
         ZoneId zoneId = parseZone(context.config().timezone);
 
-        values.put("player", () -> context.player().getGameProfile().name());
+        values.put("player", () -> context.player().getGameProfile().getName());
         values.put("uuid", () -> context.player().getUUID().toString());
         values.put("online", () -> Integer.toString(server == null ? 1 : server.getPlayerCount()));
         values.put("max", () -> Integer.toString(server == null ? 0 : server.getMaxPlayers()));

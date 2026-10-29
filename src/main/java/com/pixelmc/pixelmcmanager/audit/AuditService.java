@@ -89,7 +89,7 @@ public final class AuditService {
             return new AuditEntry(
                     System.currentTimeMillis(),
                     "PLAYER",
-                    player.getGameProfile().name(),
+                    player.getGameProfile().getName(),
                     player.getUUID().toString(),
                     action,
                     args == null ? "" : args,
