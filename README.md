@@ -2,6 +2,8 @@
 
 [中文](#中文) · [English](#english)
 
+[统一下载 / All loaders and game versions](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.1)
+
 ## 中文
 
 PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.1 对应的服务器监控、玩家档案与日常管理功能。
