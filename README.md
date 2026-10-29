@@ -2,14 +2,16 @@
 
 [中文](#中文) · [English](#english)
 
+[统一下载 / All loaders and game versions](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.1)
+
 版本 / Versions（全部需要 Fabric API，Manager 只需服务端安装 / Fabric API required, Manager is server-only）:
 
 | Minecraft | Java | Source branch | Download |
 | --- | --- | --- | --- |
-| 1.20.1 | 17 | [fabric/1.20.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/fabric/1.20.1) | [0.6.1 Fabric1.20.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.6.1-fabric-1.20.1) |
-| 1.21.1 | 21 | [fabric/1.21.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/fabric/1.21.1) | [0.6.1 Fabric1.21.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.6.1-fabric-1.21.1) |
-| 26.1.2 | 25 | [mc-26.1.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/mc-26.1.2) | [0.6.1 Fabric26.1.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.6.1-fabric-26.1.2) |
-| 26.2 | 25 | [mc-26.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/mc-26.2) | [0.6.1 Fabric26.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.6.1-fabric-26.2) |
+| 1.20.1 | 17 | [fabric/1.20.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/fabric/1.20.1) | [0.6.1 Fabric1.20.1](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.1-1.20.1) |
+| 1.21.1 | 21 | [fabric/1.21.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/fabric/1.21.1) | [0.6.1 Fabric1.21.1](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.1-1.21.1) |
+| 26.1.2 | 25 | [mc-26.1.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/mc-26.1.2) | [0.6.1 Fabric26.1.2](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.1-26.1.2) |
+| 26.2 | 25 | [mc-26.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/mc-26.2) | [0.6.1 Fabric26.2](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.1-26.2) |
 
 Forge1.20.1 / NeoForge1.21.1 位于独立的 [Forge/NeoForge 仓库](https://github.com/PixelMC-Projects/pixelmcmanager-forge)。各加载器共用最新的 [0.6.0.web.2 独立网页服务](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.0.web.2)。
 Forge/NeoForge builds stay in the separate repository. All loaders share the latest independent web service linked above.
