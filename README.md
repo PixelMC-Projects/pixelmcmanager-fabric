@@ -4,10 +4,12 @@
 
 ## 中文
 
-PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.0 对应的服务器监控、玩家档案与日常管理功能。
+PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.1 对应的服务器监控、玩家档案与日常管理功能。
 
 
 ### 功能
+
+- 玩家可用 `/killme` 自杀，先以玩家聊天样式显示“自刎归天!!!”，再执行原版死亡流程。
 
 - 实时 TPS、MSPT、内存、玩家和维度数据，可接入常驻网页后台。
 - 保存累计在线时长、登录次数与登录历史，排除 Carpet 假人。
@@ -32,10 +34,12 @@ Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同�
 
 ## English
 
-The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.6.0.
+The official Fabric port of PixelMC Manager, with server monitoring, player records and administration matching Forge 0.6.1.
 
 
 ### Features
+
+- Players can use `/killme` to announce “自刎归天!!!” in player-chat style, then die through vanilla's self-kill command.
 
 - Stream live TPS, MSPT, memory, player and dimension data to the independent dashboard.
 - Retain playtime totals, login counts and history while excluding Carpet fake players.
