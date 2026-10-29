@@ -2,6 +2,18 @@
 
 [中文](#中文) · [English](#english)
 
+版本 / Versions（全部需要 Fabric API，Manager 只需服务端安装 / Fabric API required, Manager is server-only）:
+
+| Minecraft | Java | Source branch | Download |
+| --- | --- | --- | --- |
+| 1.20.1 | 17 | [fabric/1.20.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/fabric/1.20.1) | [0.6.0 Fabric1.20.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.6.0-fabric-1.20.1) |
+| 1.21.1 | 21 | [fabric/1.21.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/fabric/1.21.1) | [0.6.0 Fabric1.21.1](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases/tag/v0.6.0-fabric-1.21.1) |
+| 26.1.2 | 25 | [mc-26.1.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/mc-26.1.2) | [Releases](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases) |
+| 26.2 | 25 | [mc-26.2](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/tree/mc-26.2) | [Releases](https://github.com/PixelMC-Projects/pixelmcmanager-fabric/releases) |
+
+Forge1.20.1 / NeoForge1.21.1 位于独立的 [Forge/NeoForge 仓库](https://github.com/PixelMC-Projects/pixelmcmanager-forge)。各加载器共用最新的 [0.6.0.web.2 独立网页服务](https://github.com/PixelMC-Projects/pixelmcmanager-forge/releases/tag/v0.6.0.web.2)。
+Forge/NeoForge builds stay in the separate repository. All loaders share the latest independent web service linked above.
+
 ## 中文
 
 PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.0 对应的服务器监控、玩家档案与日常管理功能。
@@ -28,7 +40,7 @@ PixelMC Manager 的官方 Fabric 移植，提供与 Forge 0.6.0 对应的服务�
 
 [构建与接入细节](BUILDING.md) · [Forge/Fabric 移植对照](docs/forge-port-parity.md)。
 
-Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同一份独立服务；游戏扩展必须单独适配加载器。DailyFortunes 当前游戏端为 Forge 1.20.1，不能把该 JAR 放进 Fabric；本次没有宣称其 Fabric 游戏端已移植。
+Manager 本体只需服务端安装。网页、数据库和插件 UI 复用同一份独立服务；MemorialTitles / DailyFortunes 游戏扩展请按各自正式支持表选择相同 Minecraft 版本与加载器的 JAR，不能混用其他端口。
 
 ## English
 
@@ -56,7 +68,7 @@ To optionally connect the always-on dashboard:
 
 See [building and setup details](BUILDING.md) and the [Forge/Fabric parity checklist](docs/forge-port-parity.md).
 
-Manager itself remains server-only. The dashboard, database backend and plugin UI use one shared independent service; in-game extensions require their own loader-compatible builds. DailyFortunes currently targets Forge 1.20.1; its Forge JAR cannot run on Fabric, and this update does not claim a Fabric game port.
+Manager itself remains server-only. The dashboard, database backend and plugin UI share one independent service. Select MemorialTitles / DailyFortunes game extensions from their official support tables with matching Minecraft and loader versions.
 
 ---
 
