@@ -51,6 +51,7 @@ public final class PixelMCManager implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> { events.onServerStarted(server); bridge.started(server); });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> { events.onServerStopping(server); bridge.stopping(server); });
         ServerLifecycleEvents.SERVER_STOPPED.register(bridge::stopped);
+        net.fabricmc.fabric.api.message.v1.ServerMessageEvents.CHAT_MESSAGE.register((message,sender,params)->bridge.mobileChat(sender,message.decoratedContent().getString()));
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> events.onPlayerLoggedIn(handler.player));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> events.onPlayerLoggedOut(handler.player));
         ServerChunkEvents.CHUNK_LOAD.register((level, chunk, generated) -> bridge.chunkLoaded(level, chunk));
