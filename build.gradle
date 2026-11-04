@@ -93,3 +93,15 @@ sourceSets {
     }
     tasks.named('check').configure { dependsOn taskName }
 }
+
+// Own-player API checks use class loading only, without starting Minecraft.
+sourceSets.restartChecks.compileClasspath += sourceSets.main.compileClasspath
+tasks.register('playerHubLogicTest', JavaExec) {
+    dependsOn restartChecksClasses
+    classpath = sourceSets.restartChecks.runtimeClasspath + sourceSets.main.compileClasspath
+    mainClass = 'com.pixelmc.pixelmcmanager.api.PlayerHubLogicTest'
+}
+tasks.named('check').configure { dependsOn 'playerHubLogicTest' }
+
+tasks.register("bridgeRuntimeLifecycleTest", JavaExec) { dependsOn restartChecksClasses; classpath=sourceSets.restartChecks.runtimeClasspath + sourceSets.main.compileClasspath; mainClass="com.pixelmc.pixelmcmanager.bridge.BridgeRuntimeLifecycleTest" }
+tasks.named("check").configure { dependsOn "bridgeRuntimeLifecycleTest" }
