@@ -70,6 +70,8 @@ public final class PixelMCManager implements ModInitializer {
         ServerTickEvents.START_WORLD_TICK.register(early, bridge::beginLevel);
         ServerTickEvents.END_WORLD_TICK.addPhaseOrdering(Event.DEFAULT_PHASE, late);
         ServerTickEvents.END_WORLD_TICK.register(late, bridge::endLevel);
+        net.fabricmc.fabric.api.message.v1.ServerMessageEvents.CHAT_MESSAGE.register(
+                (message, sender, parameters) -> bridge.mobileChat(sender, message.signedContent()));
         LOGGER.info("PixelMC Manager Fabric {} loaded.", VERSION);
     }
 }
